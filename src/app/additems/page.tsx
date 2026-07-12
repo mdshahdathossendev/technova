@@ -1,191 +1,301 @@
 "use client";
 
-import React, { useState } from 'react';
-import { 
-  PlusCircle, 
-  Bold, 
-  Italic, 
-  Heading2, 
-  Link2, 
-  UploadCloud, 
-  Layers, 
-  FileText, 
-  Calendar, 
-  AlertCircle 
-} from 'lucide-react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { Image as ImageIcon, Trash2 } from 'lucide-react';
+import { addProduct } from '@/lib/action';
 
-export default function AddProductPage() {
-  const [priority, setPriority] = useState('Normal');
+export default function AddProductDashboard() {
+  // ১. সমস্ত সাধারণ ইনপুটের জন্য একটি কম্বাইন্ড স্টেট
+  const [productInfo, setProductInfo] = useState({
+    title: '',
+    brand: '',
+    category: 'Mechanical Keyboard',
+    shortDescription: '',
+    fullDescription: '',
+    price: 0,
+    stock: 0,
+  });
+
+  
+  const [images, setImages] = useState<string[]>(['']);
+  const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
+  const [isSynced, setIsSynced] = useState(true);
+
+  
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { id, value } = e.target;
+    
+   
+    const stateKey = id.replace('main-', '');
+    
+   
+    const isNumber = ['price', 'stock'].includes(stateKey);
+
+    setProductInfo((prev) => ({
+      ...prev,
+      [stateKey]: isNumber ? Number(value) : value,
+    }));
+  };
+
+ 
+  const handleImageChange = (index: number, value: string) => {
+    const updatedImages = [...images];
+    updatedImages[index] = value;
+    setImages(updatedImages);
+  };
+
+ 
+  const handleAddImageField = () => {
+    if (images.length < 5) {
+      setImages([...images, '']);
+      setActiveImageIndex(images.length);
+    }
+  };
+
+  
+  const handleRemoveImage = (index: number) => {
+    if (images.length > 1) {
+      const updatedImages = images.filter((_, i) => i !== index);
+      setImages(updatedImages);
+      setActiveImageIndex(0);
+    } else {
+      setImages(['']);
+    }
+  };
+
+  
+  const handleAddProduct = async(e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); 
+    const cleanedImages = images.filter((url) => url.trim() !== '');
+    const finalProductData = {
+      name: productInfo.title,
+      brand: productInfo.brand,
+      category: productInfo.category,
+      price: productInfo.price,
+      stock: productInfo.stock,
+      description: productInfo.shortDescription,
+      longDescription: productInfo.fullDescription,
+      images: cleanedImages,
+      rating: 4.8,
+    };
+    const result = await addProduct(finalProductData);
+
+    console.log(result);
+  };
 
   return (
-   
-    <div className="flex min-h-screen w-full items-center justify-center bg-gray-100 p-4 sm:p-8 md:p-12 font-sans text-gray-900">
-      
-      <div className="w-full max-w-3xl bg-white rounded-2xl shadow-2xl p-6 sm:p-10 border border-gray-200/50">
-        
-        {/* Header */}
-        <div className="flex items-center gap-3 border-b border-gray-100 pb-5 mb-6">
-          <div className="bg-[#f4ba13]/10 p-2 rounded-xl text-[#001b4e]">
-            <PlusCircle className="w-6 h-6 stroke-[2]" />
-          </div>
-          <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-800 tracking-tight">
-              Add New Product
-            </h1>
-            <p className="text-xs text-gray-500">
-              Fill in the details below to deploy a new item to your showcase.
-            </p>
-          </div>
+    <div className="min-h-screen bg-[#f8fafc] p-4 sm:p-8 font-sans text-[#0f172a]">
+      {/* Top Header Section */}
+      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 border-b pb-5">
+        <div>
+          <h1 className="text-2xl font-bold text-[#001b4e]">Add New Product</h1>
+          <p className="text-xs text-gray-500 mt-1">Inventory &gt; Add New Product</p>
         </div>
+        <div className="flex gap-3 w-full sm:w-auto">
+          <button type="button" className="flex-1 sm:flex-none border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-2 px-4 rounded-xl text-xs transition">
+            Discard Changes
+          </button>
+          {/* এই বাটনটি নিচের ফর্মটিকে ট্রিগার করবে */}
+          <button type="submit" form="product-main-form" className="flex-1 sm:flex-none bg-[#f4ba13] hover:bg-[#e0aa0f] text-[#001b4e] font-bold py-2 px-5 rounded-xl text-xs transition shadow-sm">
+            👑 Add Product
+          </button>
+        </div>
+      </div>
 
-        {/* Form */}
-        <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+      {/* Main Layout Grid */}
+      <form id="product-main-form" className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6" onSubmit={handleAddProduct}>
+        
+        {/* Left Column: Product Media */}
+        <div className="lg:col-span-4 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col space-y-4">
+          <h2 className="text-sm font-bold text-gray-800">Product Media</h2>
           
-          {/* Product Title */}
-          <div className="space-y-1.5">
-            <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5" htmlFor="title">
-              <Layers className="w-3.5 h-3.5" /> Product Title
-            </label>
-            <input
-              id="title"
-              type="text"
-              placeholder="e.g. UltraVision 4K OLED Pro Gaming Monitor"
-              className="w-full rounded-lg border border-gray-200 bg-gray-50/30 px-3 py-2.5 text-xs outline-none transition focus:border-gray-400 focus:bg-white"
-            />
-          </div>
-
-          {/* Short Description */}
-          <div className="space-y-1.5">
-            <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5" htmlFor="shortDesc">
-              <FileText className="w-3.5 h-3.5" /> Short Description
-            </label>
-            <textarea
-              id="shortDesc"
-              rows={2}
-              placeholder="Brief summary of the product..."
-              className="w-full rounded-lg border border-gray-200 bg-gray-50/30 px-3 py-2.5 text-xs outline-none transition focus:border-gray-400 focus:bg-white resize-none"
-            />
-          </div>
-
-          {/* Full Description (with Mock Rich Text Toolbar) */}
-          <div className="space-y-1.5">
-            <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
-              <FileText className="w-3.5 h-3.5" /> Full Description
-            </label>
-            <div className="w-full rounded-lg border border-gray-200 overflow-hidden bg-gray-50/10 focus-within:border-gray-400 focus-within:bg-white transition">
-              
-              {/* Text Toolbar */}
-              <div className="flex items-center gap-1 bg-gray-50 border-b border-gray-200 p-2">
-                <button type="button" className="p-1 rounded hover:bg-gray-200 text-gray-600 transition">
-                  <Bold className="w-3.5 h-3.5" />
-                </button>
-                <button type="button" className="p-1 rounded hover:bg-gray-200 text-gray-600 transition">
-                  <Italic className="w-3.5 h-3.5" />
-                </button>
-                <button type="button" className="p-1 rounded hover:bg-gray-200 text-gray-600 transition">
-                  <Heading2 className="w-3.5 h-3.5" />
-                </button>
-                <div className="w-px h-4 bg-gray-300 mx-1"></div>
-                <button type="button" className="p-1 rounded hover:bg-gray-200 text-gray-600 transition">
-                  <Link2 className="w-3.5 h-3.5" />
-                </button>
+          <div className="w-full aspect-square bg-gray-50 rounded-xl border border-dashed border-gray-200 flex items-center justify-center overflow-hidden relative">
+            {images[activeImageIndex] ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={images[activeImageIndex]} alt="Preview" className="w-full h-full object-contain p-4" />
+            ) : (
+              <div className="text-center p-4">
+                <ImageIcon className="w-12 h-12 text-gray-300 mx-auto mb-2" />
+                <p className="text-xs text-gray-400">No image preview available</p>
               </div>
-
-              {/* Textarea Input */}
-              <textarea
-                rows={4}
-                placeholder="Describe the key features, specs, and benefits..."
-                className="w-full bg-transparent px-3 py-2.5 text-xs outline-none resize-none"
-              />
-            </div>
+            )}
           </div>
 
-          {/* Price, Date & Priority Row */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            
-            {/* Price Input */}
-            <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider" htmlFor="price">
-                Price (৳)
-              </label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-medium text-gray-400">৳</span>
-                <input
-                  id="price"
-                  type="number"
-                  placeholder="0.00"
-                  className="w-full rounded-lg border border-gray-200 bg-gray-50/30 pl-7 pr-3 py-2.5 text-xs outline-none transition focus:border-gray-400 focus:bg-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                />
-              </div>
-            </div>
-
-            {/* Date Input */}
-            <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1" htmlFor="date">
-                <Calendar className="w-3.5 h-3.5" /> Date
-              </label>
-              <input
-                id="date"
-                type="date"
-                className="w-full rounded-lg border border-gray-200 bg-gray-50/30 px-3 py-2.5 text-xs text-gray-600 outline-none transition focus:border-gray-400 focus:bg-white"
-              />
-            </div>
-
-            {/* Priority Select */}
-            <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1" htmlFor="priority">
-                <AlertCircle className="w-3.5 h-3.5" /> Priority
-              </label>
-              <select
-                id="priority"
-                value={priority}
-                onChange={(e) => setPriority(e.target.value)}
-                className="w-full rounded-lg border border-gray-200 bg-gray-50/30 px-3 py-2.5 text-xs text-gray-700 outline-none transition focus:border-gray-400 focus:bg-white cursor-pointer appearance-none"
-                style={{ backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%236b7280\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', backgroundSize: '14px' }}
-              >
-                <option value="Low">Low</option>
-                <option value="Normal">Normal</option>
-                <option value="High">High</option>
-              </select>
-            </div>
-
-          </div>
-
-          {/* Product Image URL with Action Button */}
-          <div className="space-y-1.5">
-            <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider" htmlFor="imageUrl">
-              Product Image URL
+          <div className="space-y-1">
+            <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+              Product Image URL ({activeImageIndex + 1}/{images.length})
             </label>
             <div className="flex gap-2">
               <input
-                id="imageUrl"
-                type="text"
+                type="url"
                 placeholder="https://example.com/image.jpg"
-                className="flex-1 rounded-lg border border-gray-200 bg-gray-50/30 px-3 py-2.5 text-xs outline-none transition focus:border-gray-400 focus:bg-white"
+                value={images[activeImageIndex] || ''}
+                onChange={(e) => handleImageChange(activeImageIndex, e.target.value)}
+                className="flex-1 rounded-lg border border-gray-200 bg-gray-50/50 px-3 py-2 text-xs outline-none focus:border-blue-500 focus:bg-white transition"
               />
-              <button 
-                type="button" 
-                className="flex items-center justify-center p-2.5 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-gray-600 transition shadow-sm active:scale-95"
-                title="Upload Image"
-              >
-                <UploadCloud className="w-4 h-4 text-blue-600" />
-              </button>
+              {images.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => handleRemoveImage(activeImageIndex)}
+                  className="p-2 text-red-500 hover:bg-red-50 rounded-lg border border-red-100 transition"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              )}
             </div>
           </div>
 
-          {/* Submit Action Button */}
-          <div className="pt-4">
+          <div className="grid grid-cols-5 gap-2 pt-2">
+            {images.map((url, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setActiveImageIndex(idx)}
+                className={`aspect-square rounded-lg border overflow-hidden flex items-center justify-center p-1 bg-gray-50 transition ${
+                  activeImageIndex === idx ? 'border-blue-500 ring-2 ring-blue-100' : 'border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                {url ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={url} alt="thumb" className="w-full h-full object-cover rounded-md" />
+                ) : (
+                  <ImageIcon className="w-4 h-4 text-gray-400" />
+                )}
+              </button>
+            ))}
+
+            {images.length < 5 && (
+              <button type="button" onClick={handleAddImageField} className="aspect-square rounded-lg border border-dashed border-gray-300 hover:border-blue-500 hover:bg-blue-50/30 flex items-center justify-center font-bold text-gray-400 hover:text-blue-600 text-sm transition">
+                +
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Right Column: Information & Details */}
+        <div className="lg:col-span-8 flex flex-col space-y-6">
+          
+          <div className="bg-white p-6 sm:p-8 rounded-2xl border border-gray-100 shadow-sm space-y-5">
+            {/* Product Title */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-gray-700" htmlFor="main-title">Product Title</label>
+              <input
+                id="main-title"
+                type="text"
+                value={productInfo.title}
+                onChange={handleInputChange}
+                placeholder="Enter product name..."
+                className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-xs outline-none focus:border-blue-500 transition"
+                required
+              />
+            </div>
+
+            {/* Brand and Category */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-gray-700" htmlFor="main-brand">Brand</label>
+                <input
+                  id="main-brand"
+                  type="text"
+                  value={productInfo.brand}
+                  onChange={handleInputChange}
+                  placeholder="e.g. Razer"
+                  className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-xs outline-none focus:border-blue-500 transition"
+                  required
+                />
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-gray-700" htmlFor="main-category">Category</label>
+                <select
+                  id="main-category"
+                  value={productInfo.category}
+                  onChange={handleInputChange}
+                  className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-xs outline-none focus:border-blue-500 transition bg-white cursor-pointer"
+                >
+                  <option value="Mechanical Keyboard">Mechanical Keyboard</option>
+                  <option value="Gaming Mouse">Gaming Mouse</option>
+                  <option value="OLED Monitor">OLED Monitor</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Short Description */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-gray-700" htmlFor="main-shortDescription">Short Description</label>
+              <input
+                id="main-shortDescription"
+                type="text"
+                value={productInfo.shortDescription}
+                onChange={handleInputChange}
+                placeholder="Brief summary for catalog view..."
+                className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-xs outline-none focus:border-blue-500 transition"
+                required
+              />
+            </div>
+
+            {/* Full Description */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-gray-700" htmlFor="main-fullDescription">Full Description</label>
+              <textarea
+                id="main-fullDescription"
+                rows={5}
+                value={productInfo.fullDescription}
+                onChange={handleInputChange}
+                placeholder="Write exhaustive specifications and product details here..."
+                className="w-full rounded-xl border border-gray-200 px-4 py-3 text-xs outline-none focus:border-blue-500 transition resize-none"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Pricing & Stock Row */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-2">
+              <label className="text-xs font-bold text-gray-800" htmlFor="main-price">Pricing</label>
+              <input
+                id="main-price"
+                type="number"
+                value={productInfo.price || ''}
+                onChange={handleInputChange}
+                placeholder="0.00"
+                className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-xs outline-none focus:border-blue-500 transition"
+                required
+              />
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-2">
+              <div className="flex justify-between items-center">
+                <label className="text-xs font-bold text-gray-800" htmlFor="main-stock">Stock Availability</label>
+              </div>
+              <input
+                id="main-stock"
+                type="number"
+                value={productInfo.stock || ''}
+                onChange={handleInputChange}
+                placeholder="0"
+                className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-xs outline-none focus:border-blue-500 transition"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Global Marketplace Sync Bar */}
+          <div className="bg-[#001b4e] text-white p-5 rounded-2xl flex items-center justify-between shadow-sm">
+            <div>
+              <h3 className="text-xs font-bold tracking-wide">Global Marketplace Sync</h3>
+              <p className="text-[10px] text-gray-300 mt-0.5">Automatically sync across sub-domains.</p>
+            </div>
             <button
-              type="submit"
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#f4ba13] py-3 text-xs font-bold text-[#001b4e] shadow-md hover:bg-[#e0aa0f] transition-all active:scale-[0.99]"
+              type="button"
+              onClick={() => setIsSynced(!isSynced)}
+              className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${isSynced ? 'bg-[#f4ba13]' : 'bg-gray-600'}`}
             >
-              Submit (Add Product)
+              <div className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${isSynced ? 'translate-x-5' : 'translate-x-0'}`} />
             </button>
           </div>
 
-        </form>
-
-      </div>
+        </div>
+      </form>
     </div>
   );
 }

@@ -3,15 +3,26 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { Eye, EyeOff, Shield, Gauge, LogIn } from 'lucide-react';
+import { authClient } from '@/lib/auth-client';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    const { data, error } = await authClient.signIn.email({
+    email: email,
+    password: password,
+    callbackURL: "/",
+});
+    console.log("Sign In Response:", data, error);
+  }
   return (
-    // মূলত এখানে bg-gray-100 এবং p-4 md:p-8 দিয়ে চারপাশ থেকে মার্জিন তৈরি করা হয়েছে
+    
     <div className="flex min-h-screen w-full items-center justify-center bg-gray-100 p-4 sm:p-8 md:p-12 font-sans text-gray-900">
       
-      {/* মেইন কন্টেইনার বক্স: max-w-5xl এবং rounded-2xl দিয়ে ছোট ও চারকোনা গোল করা হয়েছে */}
       <div className="flex w-full max-w-5xl min-h-[600px] bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200/50">
         
         {/* LEFT SIDE: BRANDING BANNER (Hidden on mobile) */}
@@ -72,7 +83,7 @@ export default function LoginPage() {
             </div>
 
             {/* Form */}
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-4" onSubmit={onSubmit}>
               
               {/* Email Field */}
               <div className="space-y-1">
@@ -80,7 +91,7 @@ export default function LoginPage() {
                   Email Address
                 </label>
                 <input
-                  id="email"
+                  name="email"
                   type="email"
                   placeholder="name@company.com"
                   className="w-full rounded-lg border border-gray-200 bg-gray-50/50 px-3 py-2.5 text-xs outline-none transition focus:border-gray-400 focus:bg-white"
@@ -99,7 +110,7 @@ export default function LoginPage() {
                 </div>
                 <div className="relative">
                   <input
-                    id="password"
+                    name="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
                     className="w-full rounded-lg border border-gray-200 bg-gray-50/50 pl-3 pr-9 py-2.5 text-xs outline-none transition focus:border-gray-400 focus:bg-white"

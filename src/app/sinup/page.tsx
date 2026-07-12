@@ -1,16 +1,32 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Eye, EyeOff, Shield, Tag, User, Mail, Phone, Lock, ArrowRight, ShoppingCart } from 'lucide-react';
-
+import { Eye, EyeOff, Shield, Tag, User, Mail, Lock, ArrowRight, ShoppingCart, User2Icon } from 'lucide-react';
+import { authClient } from '@/lib/auth-client';
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
+ const onSubmit = async(e) => {
+  e.preventDefault();
 
+  const formData = new FormData(e.target);
+
+  const name = formData.get("name") as string;
+const email = formData.get("email") as string;
+const image = formData.get("image") as string;
+const password = formData.get("password") as string;
+ const { data, error } = await authClient.signUp.email({
+    name: name,
+    email: email,  
+    password: password,
+    image: image
+});
+console.log("Sign Up Response:", data, error);
+};
   return (
-    // চারপাশের মার্জিনের জন্য p-4 sm:p-8 md:p-12 ব্যবহার করা হয়েছে
+   
     <div className="flex min-h-screen w-full items-center justify-center bg-gray-100 p-4 sm:p-8 md:p-12 font-sans text-gray-900">
       
-      {/* মেইন কন্টেইনার বক্স */}
+     
       <div className="flex w-full max-w-5xl min-h-[650px] bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200/50">
         
         {/* LEFT SIDE: BRANDING BANNER (Hidden on mobile) */}
@@ -77,7 +93,7 @@ export default function SignUpPage() {
             </div>
 
             {/* Form */}
-            <form className="space-y-3.5" onSubmit={(e) => e.preventDefault()}>
+            <form onSubmit={onSubmit} className="space-y-3.5">
               
               {/* Full Name Field */}
               <div className="space-y-1">
@@ -85,7 +101,7 @@ export default function SignUpPage() {
                   <User className="w-3 h-3" /> Full Name
                 </label>
                 <input
-                  id="name"
+                  name="name"
                   type="text"
                   placeholder="John Doe"
                   className="w-full rounded-lg border border-gray-200 bg-gray-50/30 px-3 py-2.5 text-xs outline-none transition focus:border-gray-400 focus:bg-white"
@@ -98,7 +114,7 @@ export default function SignUpPage() {
                   <Mail className="w-3 h-3" /> Email Address
                 </label>
                 <input
-                  id="email"
+                  name="email"
                   type="email"
                   placeholder="john@example.com"
                   className="w-full rounded-lg border border-gray-200 bg-gray-50/30 px-3 py-2.5 text-xs outline-none transition focus:border-gray-400 focus:bg-white"
@@ -110,12 +126,12 @@ export default function SignUpPage() {
                 {/* Phone Number Field */}
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-gray-500 flex items-center gap-1 uppercase tracking-wider" htmlFor="phone">
-                    <Phone className="w-3 h-3" /> Phone Number
+                    <User2Icon className="w-3 h-3" /> Image Url
                   </label>
                   <input
-                    id="phone"
-                    type="text"
-                    placeholder="+880 1XXX-XXXXXX"
+                    name="image"
+                    type="url"
+                    placeholder="Enter Your Image"
                     className="w-full rounded-lg border border-gray-200 bg-gray-50/30 px-3 py-2.5 text-xs outline-none transition focus:border-gray-400 focus:bg-white"
                   />
                 </div>
@@ -127,7 +143,7 @@ export default function SignUpPage() {
                   </label>
                   <div className="relative">
                     <input
-                      id="password"
+                      name='password'
                       type={showPassword ? "text" : "password"}
                       placeholder="••••••••"
                       className="w-full rounded-lg border border-gray-200 bg-gray-50/30 pl-3 pr-9 py-2.5 text-xs outline-none transition focus:border-gray-400 focus:bg-white"

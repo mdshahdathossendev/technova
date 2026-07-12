@@ -1,86 +1,155 @@
-'use client'
-import React, { useState } from 'react';
+'use client';
 
-const Navber: React.FC = () => {
-   const [searchQuery, setSearchQuery] = useState('');
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { Search, Heart, ShoppingCart, User, Menu, X } from 'lucide-react';
+
+const Navbar: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   return (
-    <header className="w-full bg-[#001c44] text-white font-sans selection:bg-amber-500">
-      {/* --- Top Row --- */}
-      <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4 border-b border-slate-800">
-        
-        {/* Brand Logo */}
-        <div className="text-2xl font-black tracking-wider text-[#f4c444] cursor-pointer">
-          TACHNOVA
-        </div>
+    <nav className="sticky top-0 z-50 w-full bg-white/70 backdrop-blur-md border-b border-slate-100/80 transition-all duration-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20 gap-4">
+          
+          {/* ================= BRAND LOGO ================= */}
+          <div className="flex-shrink-0">
+            <Link href="/" className="text-2xl font-black text-[#001D4A] tracking-tight">
+              TACHNOVA
+            </Link>
+          </div>
 
-        {/* Search Bar */}
-        <form className="flex w-full max-w-2xl items-center bg-white rounded overflow-hidden">
-          <input
-            type="text"
-            placeholder="Search for products..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-2 text-slate-800 focus:outline-none text-sm placeholder-slate-400"
-          />
-          <button 
-            type="submit" 
-            className="bg-[#ffb800] text-[#001c44] hover:bg-[#e0a200] transition px-5 py-2.5 flex items-center justify-center"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.603 10.603Z" />
-            </svg>
-          </button>
-        </form>
+          {/* ================= DESKTOP NAVIGATION ================= */}
+          <div className="hidden lg:flex items-center gap-8">
+            <Link href="/" className="text-sm font-black text-[#001D4A] relative pb-2 after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[#FFB800] tracking-wide">
+              Home
+            </Link>
+            <Link href="/shop" className="text-sm font-bold text-slate-500 hover:text-[#001D4A] transition-colors tracking-wide">
+              Shop
+            </Link>
+            <Link href="/deals" className="text-sm font-bold text-slate-500 hover:text-[#001D4A] transition-colors tracking-wide">
+              Deals
+            </Link>
+            <Link href="/new-arrivals" className="text-sm font-bold text-slate-500 hover:text-[#001D4A] transition-colors tracking-wide">
+              New Arrivals
+            </Link>
+          </div>
 
-        {/* Right Side Utilities */}
-        <div className="flex items-center gap-6 text-xs font-semibold tracking-wide text-slate-300">
-        
-          {/* Login / Register */}
-          <button className="flex  items-center gap-1 hover:text-white transition">
-            <span>LOGIN / REGISTER</span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-            </svg>
-          </button>
+          {/* ================= DESKTOP SEARCH BAR ================= */}
+          <div className="hidden md:flex flex-1 max-w-md mx-4">
+            <div className="relative w-full">
+              <input
+                type="text"
+                placeholder="Search electronics..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-slate-50 text-slate-800 placeholder-slate-400 font-medium text-xs px-5 py-3 rounded-xl pr-10 border border-transparent focus:outline-none focus:bg-white focus:border-slate-200 transition-all"
+              />
+              <Search size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+            </div>
+          </div>
 
-          {/* Cart */}
-          <button className="flex  items-center gap-1 hover:text-white transition relative group">
-            <span className="flex items-center gap-1">
-              CART
-              <span className="absolute -top-1 -right-2 bg-[#ffb800] text-[#001c44] font-black rounded-full text-[10px] w-4 h-4 flex items-center justify-center">
+          {/* ================= ACTION UTILITIES ================= */}
+          <div className="hidden sm:flex items-center gap-5">
+            {/* Wishlist */}
+            <button type="button" className="text-slate-700 hover:text-red-500 transition-colors p-1" aria-label="Wishlist">
+              <Heart size={20} />
+            </button>
+
+            {/* Cart with dynamic Amber Badge */}
+            <button type="button" className="text-slate-700 hover:text-[#001D4A] transition-colors p-1 relative" aria-label="Cart">
+              <ShoppingCart size={20} />
+              <span className="absolute -top-1.5 -right-2 bg-[#FFB800] text-[#001D4A] text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
                 0
               </span>
-            </span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zs" />
-            </svg>
-          </button>
+            </button>
+
+            {/* Premium Login Button */}
+            <button
+              type="button"
+              className="bg-[#001D4A] hover:bg-[#001433] text-white font-black text-xs px-5 py-3 rounded-xl flex items-center gap-2 transition-all shadow-sm active:scale-[0.98]"
+            >
+              <User size={14} fill="currentColor" />
+              <span>Login</span>
+            </button>
+          </div>
+
+          {/* ================= MOBILE HAMBURGER TOGGLE ================= */}
+          <div className="flex lg:hidden items-center gap-4">
+            {/* Mobile View Cart Quick Link */}
+            <button type="button" className="sm:hidden text-slate-700 relative p-1">
+              <ShoppingCart size={20} />
+              <span className="absolute -top-1 -right-1.5 bg-[#FFB800] text-[#001D4A] text-[9px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center">
+                0
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-[#001D4A] p-1.5 rounded-xl hover:bg-slate-100 transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
 
         </div>
       </div>
 
-      {/* --- Bottom Row --- */}
-      <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4 text-sm font-medium">
-        
-        {/* Navigation Links */}
-        <nav className="flex items-center gap-6">
-          <a href="/" className="hover:text-[#f4c444] transition text-slate-300">Home</a>
-          <a href="#shop" className="hover:text-[#f4c444] ">Shop</a>
-          <a href="#new-arrivals" className="hover:text-[#f4c444] transition text-slate-300">About</a>
-        </nav>
+      {/* ================= MOBILE DRAWER IMPLEMENTATION ================= */}
+      {isOpen && (
+        <div className="lg:hidden border-t border-slate-100 bg-white/95 backdrop-blur-lg absolute top-20 left-0 w-full shadow-xl animate-in fade-in slide-in-from-top-4 duration-200">
+          <div className="px-4 pt-4 pb-6 space-y-4">
+            
+            {/* Search bar inside mobile drawer */}
+            <div className="relative w-full md:hidden">
+              <input
+                type="text"
+                placeholder="Search electronics..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-slate-50 text-slate-800 placeholder-slate-400 font-medium text-xs px-4 py-3 rounded-xl pr-10"
+              />
+              <Search size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400" />
+            </div>
 
-        {/* Promo Message */}
-        <div className="flex items-center gap-1.5 text-[#f4c444] font-bold tracking-wide animate-pulse">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
-            <path fillRule="evenodd" d="M14.615 1.595a.75.75 0 0 1 .359.852L12.982 9.75h7.268a.75.75 0 0 1 .548 1.262l-10.5 11.25a.75.75 0 0 1-1.272-.71l1.992-7.302H3.75a.75.75 0 0 1-.548-1.262l10.5-11.25a.75.75 0 0 1 .913-.143Z" clipRule="evenodd" />
-          </svg>
-          <span>Flash Sale: 40% Off</span>
+            {/* Menu Navigation Links */}
+            <div className="flex flex-col space-y-1">
+              <Link href="/" className="px-3 py-3 rounded-xl text-sm font-black bg-amber-50 text-amber-600">
+                Home
+              </Link>
+              <Link href="/shop" className="px-3 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50">
+                Shop
+              </Link>
+              <Link href="/deals" className="px-3 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50">
+                Deals
+              </Link>
+              <Link href="/new-arrivals" className="px-3 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50">
+                New Arrivals
+              </Link>
+              <Link href="/wishlist" className="sm:hidden px-3 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50 flex items-center gap-2">
+                <Heart size={16} /> Wishlist
+              </Link>
+            </div>
+
+            {/* Mobile Actions Container */}
+            <div className="pt-2 sm:hidden border-t border-slate-100">
+              <button
+                type="button"
+                className="w-full bg-[#001D4A] text-white font-black text-xs py-3.5 rounded-xl flex items-center justify-center gap-2"
+              >
+                <User size={14} fill="currentColor" />
+                <span>Login</span>
+              </button>
+            </div>
+
+          </div>
         </div>
-
-      </div>
-    </header>
-    );
+      )}
+    </nav>
+  );
 };
 
-export default Navber;
+export default Navbar;
