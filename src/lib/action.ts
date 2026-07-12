@@ -16,3 +16,10 @@ export const addProduct = async (product: Product) => {
 
   return res.json();
 };
+export const deleteProduct = async (id: string) => {
+  const res = await fetch(`http://localhost:5000/product/${id}`, {
+    method: "DELETE",
+  });
+
+  return res.json();
+};

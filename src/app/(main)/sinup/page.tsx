@@ -209,7 +209,7 @@ console.log("Sign Up Response:", data, error);
             {/* Footer Link */}
             <p className="text-center text-xs font-medium text-gray-500">
               Already have an account?{' '}
-              <a href="#" className="font-bold text-[#001b4e] hover:underline">
+              <a href="/sinin" className="font-bold text-[#001b4e] hover:underline">
                 Sign In
               </a>
             </p>

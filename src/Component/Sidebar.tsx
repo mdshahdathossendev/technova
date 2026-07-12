@@ -2,65 +2,107 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation'; // বর্তমানে কোন পেজে আছেন তা ট্র্যাক করার জন্য
+import { usePathname } from 'next/navigation';
 import { 
+  Rocket,
   LayoutDashboard, 
   Archive, 
   ShoppingCart, 
   Users, 
   BarChart3, 
-  Settings 
+  Settings,
+  FileText
 } from 'lucide-react';
 
 export default function Sidebar() {
-  const pathname = usePathname(); 
+  const pathname = usePathname(); // বর্তমানে কোন রাউটে আছেন তা জানার জন্য
+
+  // মেনু লিস্ট এবং তাদের নিজস্ব রাউট পাথ
   const menuItems = [
-    { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
-    { name: 'Inventory', icon: Archive, path: '/inventory' },
-    { name: 'Orders', icon: ShoppingCart, path: '/orders' },
-    { name: 'Customers', icon: Users, path: '/customers' },
-    { name: 'Analytics', icon: BarChart3, path: '/analytics' },
-    { name: 'Settings', icon: Settings, path: '/settings' },
+    { name: 'Dashboard', icon: LayoutDashboard, path: '/desbord' },
+    { name: 'Add Product', icon: Archive, path: '/desbord/additems' },
+    { name: 'Mange Product', icon: ShoppingCart, path: '/desbord/mangeProdect'},
+    { name: 'Customers', icon: Users, path: '' },
+    { name: 'Analytics', icon: BarChart3, path: '' },
+    { name: 'Settings', icon: Settings, path: '' },
   ];
 
   return (
-    <aside className="w-64 min-h-screen bg-[#001b4e] text-gray-400 p-5 flex flex-col font-sans border-r border-gray-800">
+    <aside className="fixed w-64 min-h-screen bg-[#001b4e] text-gray-400 p-5 flex flex-col justify-between font-sans border-r border-gray-800">
       
-      {/* Brand Logo / Title */}
-      <div className="mb-8 px-3">
-        <Link href="/dashboard" className="text-2xl font-black text-white tracking-wider uppercase block">
-          TECHNOVA
-        </Link>
+      {/* ─── TOP SECTION: LOGO & LINKS ─── */}
+      <div>
+        {/* Brand Logo with Rocket Icon */}
+        <div className="mb-8 px-3 flex items-center gap-2.5">
+          <div className="bg-[#f4ba13] p-1.5 rounded-lg text-[#001b4e] flex items-center justify-center shadow-sm">
+            <Rocket className="w-5 h-5 fill-current" />
+          </div>
+          <h1 className="text-xl font-black text-white tracking-wider uppercase">
+            TECHNOVA
+          </h1>
+        </div>
+
+        {/* Navigation Routes */}
+        <nav className="space-y-1.5">
+          {menuItems.map((item) => {
+            const IconComponent = item.icon;
+            
+            // রিয়েল-টাইম ইউআরএল পাথের সাথে মিললে বাটনটি অ্যাক্টিভ হবে
+            const isActive = pathname === item.path;
+
+            return (
+              <Link
+                key={item.name}
+                href={item.path}
+                className={`flex items-center gap-3.5 px-4 py-3 rounded-xl text-xs font-bold transition-all duration-200 ${
+                  isActive 
+                    ? 'bg-[#002d72] text-[#f4ba13]' // Active state
+                    : 'hover:bg-[#002361] hover:text-white text-gray-400/80' // Normal state
+                }`}
+              >
+                <IconComponent 
+                  className={`w-4 h-4 stroke-[2] ${
+                    isActive ? 'text-[#f4ba13]' : 'text-gray-400/60'
+                  }`} 
+                />
+                <span className="tracking-wide">{item.name}</span>
+              </Link>
+            );
+          })}
+        </nav>
       </div>
 
-      {/* Navigation Links */}
-      <nav className="flex-1 space-y-1.5">
-        {menuItems.map((item) => {
-          const IconComponent = item.icon;
-          
-          // কারেন্ট ইউআরএল (pathname) যদি এই মেনুর পাথের সাথে মিলে যায়, তবে এটি অ্যাক্টিভ হবে
-          const isActive = pathname === item.path;
+      {/* ─── BOTTOM SECTION: BUTTON & PROFILE ─── */}
+      <div className="space-y-4 pt-4 border-t border-gray-800/40">
+        
+        {/* Yellow "New Report" Action Button */}
+        <Link 
+          href="/reports/new" 
+          className="w-full bg-[#f4ba13] hover:bg-[#e0aa0f] text-[#001b4e] font-bold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-2 transition shadow-sm active:scale-[0.98]"
+        >
+          <FileText className="w-4 h-4 stroke-[2.5]" />
+          <span>New Report</span>
+        </Link>
 
-          return (
-            <Link
-              key={item.name}
-              href={item.path}
-              className={`flex items-center gap-3.5 px-4 py-3 rounded-xl text-xs font-bold transition-all duration-200 ${
-                isActive 
-                  ? 'bg-[#002d72] text-[#f4ba13]' // Active State Styling
-                  : 'hover:bg-[#002361] hover:text-white text-gray-400/80'
-              }`}
-            >
-              <IconComponent 
-                className={`w-4 h-4 stroke-[2] ${
-                  isActive ? 'text-[#f4ba13]' : 'text-gray-400/60'
-                }`} 
-              />
-              <span className="tracking-wide">{item.name}</span>
-            </Link>
-          );
-        })}
-      </nav>
+        {/* User Profile Footer Card */}
+        <div className="bg-[#002361]/40 p-3 rounded-xl border border-gray-800/20 flex items-center gap-3">
+          {/* Avatar Image */}
+          <div className="w-9 h-9 rounded-lg bg-gray-600 overflow-hidden shadow-inner flex-shrink-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img 
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces" 
+              alt="Admin Profile" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+          {/* Name & Role Text */}
+          <div className="min-w-0">
+            <h4 className="text-xs font-black text-white truncate leading-none">Admin Console</h4>
+            <p className="text-[10px] text-gray-500 font-medium truncate mt-1">TechNova Admin</p>
+          </div>
+        </div>
+
+      </div>
 
     </aside>
   );

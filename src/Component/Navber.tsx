@@ -71,7 +71,9 @@ const Navbar: React.FC = () => {
               className="bg-[#001D4A] hover:bg-[#001433] text-white font-black text-xs px-5 py-3 rounded-xl flex items-center gap-2 transition-all shadow-sm active:scale-[0.98]"
             >
               <User size={14} fill="currentColor" />
-              <span>Login</span>
+            <Link href="/sinin">
+            <span>Login</span>
+            </Link>
             </button>
           </div>
 
@@ -135,15 +137,21 @@ const Navbar: React.FC = () => {
             </div>
 
             {/* Mobile Actions Container */}
+           <Link href="/sinin">
             <div className="pt-2 sm:hidden border-t border-slate-100">
+             
               <button
                 type="button"
                 className="w-full bg-[#001D4A] text-white font-black text-xs py-3.5 rounded-xl flex items-center justify-center gap-2"
               >
                 <User size={14} fill="currentColor" />
-                <span>Login</span>
+                <span>
+
+                </span>
               </button>
+             
             </div>
+           </Link>
 
           </div>
         </div>

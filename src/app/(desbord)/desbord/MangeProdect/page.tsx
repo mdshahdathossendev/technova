@@ -1,10 +1,13 @@
-import React from 'react';
+import MangeProdect from '@/Component/MangeProdect';
+import { getProduct, Product } from '@/lib/data';
 
-const page = () => {
+const page = async() => {
+    const products: Product[] = await getProduct();
+        console.log("Fetched Products:", products);
     return (
-        <div>
-            mange fdfj
-        </div>
+       <>
+      <MangeProdect products={products}></MangeProdect>
+       </>
     );
 };
 
