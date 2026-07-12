@@ -22,9 +22,6 @@ export default function Sidebar() {
     { name: 'Dashboard', icon: LayoutDashboard, path: '/desbord' },
     { name: 'Add Product', icon: Archive, path: '/desbord/additems' },
     { name: 'Mange Product', icon: ShoppingCart, path: '/desbord/mangeProdect'},
-    { name: 'Customers', icon: Users, path: '' },
-    { name: 'Analytics', icon: BarChart3, path: '' },
-    { name: 'Settings', icon: Settings, path: '' },
   ];
 
   return (

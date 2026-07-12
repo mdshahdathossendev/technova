@@ -2,11 +2,24 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation'; 
 import { Search, Heart, ShoppingCart, User, Menu, X } from 'lucide-react';
+import { authClient } from '@/lib/auth-client';
 
 const Navbar: React.FC = () => {
+  const { data: session } = authClient.useSession();
+  console.log('Session data:', session); 
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const pathname = usePathname(); 
+
+  
+  const navLinks = [
+    { name: "Home", href: "/" },
+  { name: "Shop", href: "/shop" },
+  { name: "About", href: "/about" },
+  ...(session ? [{ name: "Dashboard", href: "/desbord" }] : []),
+  ];
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-white/70 backdrop-blur-md border-b border-slate-100/80 transition-all duration-300">
@@ -22,18 +35,22 @@ const Navbar: React.FC = () => {
 
           {/* ================= DESKTOP NAVIGATION ================= */}
           <div className="hidden lg:flex items-center gap-8">
-            <Link href="/" className="text-sm font-black text-[#001D4A] relative pb-2 after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[#FFB800] tracking-wide">
-              Home
-            </Link>
-            <Link href="/shop" className="text-sm font-bold text-slate-500 hover:text-[#001D4A] transition-colors tracking-wide">
-              Shop
-            </Link>
-            <Link href="/deals" className="text-sm font-bold text-slate-500 hover:text-[#001D4A] transition-colors tracking-wide">
-              Deals
-            </Link>
-            <Link href="/new-arrivals" className="text-sm font-bold text-slate-500 hover:text-[#001D4A] transition-colors tracking-wide">
-              New Arrivals
-            </Link>
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm tracking-wide transition-colors duration-200 relative pb-2 ${
+                    isActive
+                      ? 'font-black text-[#001D4A] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[#FFB800]'
+                      : 'font-bold text-slate-500 hover:text-[#001D4A]'
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
           </div>
 
           {/* ================= DESKTOP SEARCH BAR ================= */}
@@ -65,16 +82,27 @@ const Navbar: React.FC = () => {
               </span>
             </button>
 
-            {/* Premium Login Button */}
-            <button
-              type="button"
-              className="bg-[#001D4A] hover:bg-[#001433] text-white font-black text-xs px-5 py-3 rounded-xl flex items-center gap-2 transition-all shadow-sm active:scale-[0.98]"
-            >
-              <User size={14} fill="currentColor" />
-            <Link href="/sinin">
-            <span>Login</span>
-            </Link>
-            </button>
+          
+          
+           {session ? (
+  <button
+    onClick={async () => {
+      await authClient.signOut();
+    }}
+    className="bg-red-600 hover:bg-red-700 text-white font-black text-xs px-5 py-3 rounded-xl flex items-center gap-2 transition-all shadow-sm active:scale-[0.98]"
+  >
+    <User size={14} />
+    <span>Logout</span>
+  </button>
+) : (
+  <Link
+    href="/sinin"
+    className="bg-[#001D4A] hover:bg-[#001433] text-white font-black text-xs px-5 py-3 rounded-xl flex items-center gap-2 transition-all shadow-sm active:scale-[0.98]"
+  >
+    <User size={14} fill="currentColor" />
+    <span>Login</span>
+  </Link>
+)}
           </div>
 
           {/* ================= MOBILE HAMBURGER TOGGLE ================= */}
@@ -119,39 +147,58 @@ const Navbar: React.FC = () => {
 
             {/* Menu Navigation Links */}
             <div className="flex flex-col space-y-1">
-              <Link href="/" className="px-3 py-3 rounded-xl text-sm font-black bg-amber-50 text-amber-600">
-                Home
-              </Link>
-              <Link href="/shop" className="px-3 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50">
-                Shop
-              </Link>
-              <Link href="/deals" className="px-3 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50">
-                Deals
-              </Link>
-              <Link href="/new-arrivals" className="px-3 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50">
-                New Arrivals
-              </Link>
-              <Link href="/wishlist" className="sm:hidden px-3 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50 flex items-center gap-2">
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)} // লিংক ক্লিক করলে মেনু বন্ধ হয়ে যাবে
+                    className={`px-3 py-3 rounded-xl text-sm transition-colors ${
+                      isActive
+                        ? 'font-black bg-amber-50 text-amber-600'
+                        : 'font-bold text-slate-600 hover:bg-slate-50'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
+              
+              {/* Mobile Wishlist Quick Link */}
+              <Link 
+                href="/wishlist" 
+                onClick={() => setIsOpen(false)}
+                className="sm:hidden px-3 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50 flex items-center gap-2"
+              >
                 <Heart size={16} /> Wishlist
               </Link>
             </div>
 
             {/* Mobile Actions Container */}
-           <Link href="/sinin">
-            <div className="pt-2 sm:hidden border-t border-slate-100">
-             
-              <button
-                type="button"
-                className="w-full bg-[#001D4A] text-white font-black text-xs py-3.5 rounded-xl flex items-center justify-center gap-2"
-              >
-                <User size={14} fill="currentColor" />
-                <span>
-
-                </span>
-              </button>
-             
-            </div>
-           </Link>
+          <div className="pt-2 sm:hidden border-t border-slate-100">
+  {session ? (
+    <button
+      onClick={async () => {
+        await authClient.signOut();
+        setIsOpen(false);
+      }}
+      className="w-full bg-red-600 hover:bg-red-700 text-white font-black text-xs py-3.5 rounded-xl flex items-center justify-center gap-2 transition-all"
+    >
+      <User size={14} />
+      <span>Logout</span>
+    </button>
+  ) : (
+    <Link
+      href="/sinin"
+      onClick={() => setIsOpen(false)}
+      className="w-full bg-[#001D4A] hover:bg-[#001433] text-white font-black text-xs py-3.5 rounded-xl flex items-center justify-center gap-2 transition-all"
+    >
+      <User size={14} fill="currentColor" />
+      <span>Login</span>
+    </Link>
+  )}
+</div>
 
           </div>
         </div>
