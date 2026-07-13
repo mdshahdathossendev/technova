@@ -18,7 +18,7 @@ export const config = {
   matcher: [
     "/desbord",
     "/desbord/additems",
-    "/desbord/mangeProdect",
+    "/desbord/mangeprodect",
     "/desbord/overview",
   ],
 };
