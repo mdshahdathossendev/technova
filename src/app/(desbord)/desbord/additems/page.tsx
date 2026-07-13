@@ -122,7 +122,7 @@ export default function AddProductDashboard() {
         
         {/* Left Column: Product Media */}
         <div className="lg:col-span-4 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col space-y-4">
-          <h2 className="text-sm font-bold text-gray-800">Product Media</h2>
+          <h2 className="text-sm font-bold text-gray-900">Product Media</h2>
           
           <div className="w-full aspect-square bg-gray-50 rounded-xl border border-dashed border-gray-200 flex items-center justify-center overflow-hidden relative">
             {images[activeImageIndex] ? (
