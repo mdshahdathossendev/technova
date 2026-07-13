@@ -12,6 +12,17 @@ export const getSingleProduct = async (id: string) => {
   return res.json();
 };
 export interface Product {
+  name: string;
+  brand: string;
+  category: string;
+  price: number;
+  stock: number;
+  rating: number;
+  description: string;
+  longDescription: string;
+  images: string[];
+}
+export interface Products {
   _id: string;
   name: string;
   brand: string;

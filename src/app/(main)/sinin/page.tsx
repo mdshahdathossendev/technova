@@ -7,7 +7,7 @@ import { authClient } from '@/lib/auth-client';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const onSubmit = async (e) => {
+  const onSubmit = async (e :any) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const email = formData.get("email") as string;

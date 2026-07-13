@@ -11,11 +11,11 @@ interface FeaturedHighlightsProps {
 }
 
 const FeaturedHighlights: React.FC<FeaturedHighlightsProps> = ({ products = [] }) => {
-  // ডিজাইন অনুযায়ী ঠিক ৪টি ডাটা এসাইন করা হচ্ছে
-  const mainDeal = products[0];       // Left Main Card (Sony Headphone)
-  const trendingItem = products[1];   // Right Top Card (Keyboard)
-  const flashTextCard = products[2];  // Right Bottom Left Banner (Flash Deals)
-  const smallProduct = products[3];   // Right Bottom Right Card (DSLR)
+  
+  const mainDeal = products[0];       
+  const trendingItem = products[1];  
+  const flashTextCard = products[2];  
+  const smallProduct = products[3];   
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12 font-sans bg-slate-50">
@@ -40,9 +40,6 @@ const FeaturedHighlights: React.FC<FeaturedHighlightsProps> = ({ products = [] }
                 className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
                 sizes="(max-w-7xl) 50vw, 100vw"
               />
-              <span className="absolute top-4 left-4 bg-red-600 text-white text-xs font-black px-3 py-1.5 rounded-lg uppercase tracking-wider shadow-sm">
-                {mainDeal.tag || 'Deal of the Day'}
-              </span>
             </div>
             
             <div className="p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white">
@@ -56,13 +53,11 @@ const FeaturedHighlights: React.FC<FeaturedHighlightsProps> = ({ products = [] }
                       <Star key={i} size={14} fill={i < mainDeal.rating ? "currentColor" : "none"} className={i < mainDeal.rating ? "text-amber-500" : "text-slate-200"} />
                     ))}
                   </div>
-                  <span className="text-xs font-bold text-slate-400">({mainDeal.reviewsCount} reviews)</span>
+                  <span className="text-xs font-bold text-slate-400">({mainDeal.rating} reviews)</span>
                 </div>
                 <div className="flex items-baseline gap-2 pt-1">
                   <span className="text-2xl font-black text-blue-950">৳{mainDeal.price.toLocaleString()}</span>
-                  {mainDeal.oldPrice && (
-                    <span className="text-sm text-slate-400 line-through">৳{mainDeal.oldPrice.toLocaleString()}</span>
-                  )}
+                  
                 </div>
               </div>
               
@@ -92,9 +87,7 @@ const FeaturedHighlights: React.FC<FeaturedHighlightsProps> = ({ products = [] }
                 />
               </div>
               <div className="p-6 flex flex-col justify-center space-y-3 bg-white">
-                <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest">
-                  {trendingItem.tag || 'Trending Now'}
-                </span>
+          
                 <h4 className="text-lg font-black text-slate-900 leading-tight">
                   {trendingItem.name}
                 </h4>
@@ -125,7 +118,7 @@ const FeaturedHighlights: React.FC<FeaturedHighlightsProps> = ({ products = [] }
                 </p>
               </div>
               <span className="text-sm font-black text-amber-400 z-10 mt-4 block">
-                {flashTextCard.tag || '40% OFF'}
+                {(flashTextCard as any).tag  || '40% OFF'}
               </span>
               <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-blue-900/40 rounded-full blur-2xl group-hover:scale-125 transition-transform duration-500" />
             </div>
@@ -147,7 +140,7 @@ const FeaturedHighlights: React.FC<FeaturedHighlightsProps> = ({ products = [] }
                 {smallProduct.name}
               </h4>
               <p className="text-sm font-black text-slate-900">
-                {smallProduct.tag || 'From'} <span className="text-blue-950 font-black">৳{smallProduct.price.toLocaleString()}</span>
+                {(smallProduct as any).tag || 'From'} <span className="text-blue-950 font-black">৳{smallProduct.price.toLocaleString()}</span>
               </p>
             </div>
           )}

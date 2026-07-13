@@ -3,12 +3,12 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { ShoppingCart, Star, ShieldCheck, Truck, Zap } from 'lucide-react';
-import { Product } from '@/lib/data';
+
 
 
 
 interface SingalPordectProps {
-  products?: Product;
+  products?: any;
 }
 
 const SingalPordect: React.FC<SingalPordectProps> = ({ products }) => {
@@ -21,7 +21,7 @@ const SingalPordect: React.FC<SingalPordectProps> = ({ products }) => {
 
   console.log("Added to cart");
 };
-  const [activeImage, setActiveImage] = useState<string>(products.images?.[0] || '');
+  const [activeImage, setActiveImage] = useState<string>(products.images?.[0] );
   const [selectedStorage, setSelectedStorage] = useState<string>(
     products.storageOptions?.[0] || 'Base'
   );
@@ -50,7 +50,7 @@ const SingalPordect: React.FC<SingalPordectProps> = ({ products }) => {
           </div>
 
           <div className="grid grid-cols-4 gap-4">
-            {products.images?.map((img, index) => (
+            {products.images?.map((img: string, index: number) => (
               <button
                 key={index}
                 type="button"
@@ -146,7 +146,7 @@ const SingalPordect: React.FC<SingalPordectProps> = ({ products }) => {
               <div className="space-y-2.5 pt-1">
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Storage</span>
                 <div className="flex gap-3">
-                  {products.storageOptions.map((option) => (
+                  {products.storageOptions.map((option: any) => (
                     <button
                       key={option}
                       type="button"
@@ -181,7 +181,7 @@ const SingalPordect: React.FC<SingalPordectProps> = ({ products }) => {
               <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100 space-y-3">
                 <h3 className="font-bold text-slate-900 text-sm tracking-wide">Key Features</h3>
                 <ul className="space-y-2.5 text-sm text-slate-600">
-                  {products.features.map((feature, i) => (
+                  {products.features.map((feature: any, i: any) => (
                     <li key={i} className="flex items-start gap-2.5">
                       <Zap size={16} className="text-blue-950 shrink-0 mt-0.5" fill="currentColor" />
                       <span>{feature}</span>

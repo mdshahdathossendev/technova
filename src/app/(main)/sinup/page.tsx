@@ -5,7 +5,7 @@ import { Eye, EyeOff, Shield, Tag, User, Mail, Lock, ArrowRight, ShoppingCart, U
 import { authClient } from '@/lib/auth-client';
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
- const onSubmit = async(e) => {
+ const onSubmit = async(e :any) => {
   e.preventDefault();
 
   const formData = new FormData(e.target);
@@ -20,8 +20,13 @@ const password = formData.get("password") as string;
     password: password,
     image: image
 });
-console.log("Sign Up Response:", data, error);
+
 };
+const handleGoogleLogin = async () => {
+ const data = await authClient.signIn.social({
+    provider: "google",
+  });
+}
   return (
    
     <div className="flex min-h-screen w-full items-center justify-center bg-gray-100 p-4 sm:p-8 md:p-12 font-sans text-gray-900">
@@ -192,7 +197,7 @@ console.log("Sign Up Response:", data, error);
 
             {/* OAuth Buttons */}
             <div className="grid grid-cols-2 gap-3">
-              <button className="flex items-center justify-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition">
+              <button onClick={handleGoogleLogin} className="flex items-center justify-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition">
                 <svg className="h-3.5 w-3.5" viewBox="0 0 24 24">
                   <path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.137 4.114-3.466 0-6.277-2.812-6.277-6.277s2.811-6.278 6.277-6.278c1.514 0 2.89.543 3.96 1.443l3.076-3.076C18.995 1.764 15.82 1 12.24 1 6.033 1 12.24 6.033 1 12.24s5.033 11.24 11.24 11.24c5.897 0 10.867-4.247 10.867-11.24 0-.648-.057-1.286-.171-1.954H12.24z"/>
                 </svg>

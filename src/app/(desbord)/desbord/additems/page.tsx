@@ -3,10 +3,22 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Image as ImageIcon, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import addDataPage from '../addprodectuscces/page';
+
+import { addProduct } from '@/lib/action';
 
 
 export default function AddProductDashboard() {
+  interface Products {
+    name: string;
+    brand: string;
+    category: string;
+    price: number;
+    stock: number;
+    rating: number;
+    description: string;
+    longDescription: string;
+    images: string[];
+  }
    const router = useRouter();
   const [productInfo, setProductInfo] = useState({
     title: '',
@@ -69,7 +81,7 @@ export default function AddProductDashboard() {
   const handleAddProduct = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); 
     const cleanedImages = images.filter((url) => url.trim() !== '');
-    const finalProductData = {
+    const finalProductData :Products = {
       name: productInfo.title,
       brand: productInfo.brand,
       category: productInfo.category,
@@ -80,14 +92,9 @@ export default function AddProductDashboard() {
       images: cleanedImages,
       rating: 4.8,
     };
-    const result = await addProduct(finalProductData);
+    addProduct(finalProductData );
     router.push("/desbord/addprodectuscces");
-    // const result = await addProduct(finalProductData);
-
-// if (result.success) {
-//   setSuccessProduct(finalProductData);
-//   router.push("/addprodectuscces");
-// }
+    
     
   };
 

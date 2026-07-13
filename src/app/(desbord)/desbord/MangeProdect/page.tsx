@@ -1,9 +1,21 @@
 import MangeProdect from '@/Component/MangeProdect';
-import { getProduct, Product } from '@/lib/data';
+import { getProduct} from '@/lib/data';
 
 const page = async() => {
-    const products: Product[] = await getProduct();
-        console.log("Fetched Products:", products);
+// interface Producte {
+//   _id: string;
+//   name: string;
+//   brand: string;
+//   category: string;
+//   price: number;
+//   stock: number;
+//   rating: number;
+//   description: string;
+//   longDescription: string;
+//   images: string[];
+// }
+    const products :any = await getProduct();
+       
     return (
        <>
       <MangeProdect products={products}></MangeProdect>

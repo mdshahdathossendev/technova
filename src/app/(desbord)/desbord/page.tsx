@@ -169,7 +169,7 @@ export default function OverviewSection() {
 
           {/* Recharts Area Chart */}
           <div className="w-full h-72 text-xs">
-            <ResponsiveContainer width="100%" h="100%">
+            <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={salesData} margin={{ top: 10, right: 5, left: -25, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorCurrent" x1="0" y1="0" x2="0" y2="1">

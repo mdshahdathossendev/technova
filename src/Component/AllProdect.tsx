@@ -3,12 +3,13 @@
 import React, { useState, useMemo } from 'react';
 import Image from 'next/image'; // Next.js Image Optimization-এর জন্য
 import { ShoppingCart, Star, Heart } from 'lucide-react';
-import { Product } from '@/lib/data';
+
 import Link from 'next/link';
+import { Products } from '@/lib/data';
 
 
 interface AllProductProps {
-  products: Product[];
+  products: Products[];
 }
 
 const AllProduct: React.FC<AllProductProps> = ({ products = [] }) => {

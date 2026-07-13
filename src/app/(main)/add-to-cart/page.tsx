@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
-// ১. টাইপ ডেফিনিশন (ঐচ্ছিক ফিল্ডসহ সেফ করা হয়েছে)
+
 export interface CartItem {
   _id: string;
   name: string;

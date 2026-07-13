@@ -10,7 +10,7 @@ import { getSingleProduct, Product } from '@/lib/data';
 const page = async({ params }: PageProps) => {
      const { id } = await params;
      
-     const products: Product[] = await getSingleProduct(id);
+     const products: any = await getSingleProduct(id);
     
     return (
         <div>

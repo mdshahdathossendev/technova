@@ -17,12 +17,16 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 interface Product {
-  id: string;
+   _id: string;
   name: string;
-  sku: string;
-  image: string;
+  brand: string;
   category: string;
   price: number;
+  rating: number;
+  description: string;
+  longDescription: string;
+  images: string[];
+  stock: number;
   stockStatus: 'In Stock' | 'Low Stock' | 'Out of Stock';
 }
 
@@ -32,15 +36,7 @@ interface ManageProductProps {
 
 export default function ManageProduct({ products: initialProducts }: ManageProductProps) {
   const router = useRouter()
-  const defaultProducts: Product[] = [
-    { id: '1', name: 'X-Phenom Pro Laptop', sku: 'TN-LPT-9920', image: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=80&q=80', category: 'Computing', price: 1899.00, stockStatus: 'In Stock' },
-    { id: '2', name: 'Acoustix Ultra-H1', sku: 'TN-HDP-0411', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=80&q=80', category: 'Audio', price: 349.50, stockStatus: 'Low Stock' },
-    { id: '3', name: 'Nexus 5G flagship', sku: 'TN-PHN-8800', image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=80&q=80', category: 'Mobile', price: 999.00, stockStatus: 'Out of Stock' },
-    { id: '4', name: 'Velocity Watch S4', sku: 'TN-WCH-1122', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=80&q=80', category: 'Wearables', price: 299.00, stockStatus: 'In Stock' },
-    { id: '5', name: 'OpticView 4K Cinema', sku: 'TN-CAM-5020', image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=80&q=80', category: 'Video', price: 4250.00, stockStatus: 'In Stock' },
-  ];
-
-  const [productList, setProductList] = useState<Product[]>(initialProducts || defaultProducts);
+  const [productList, setProductList] = useState<Product[]>(initialProducts || []);
 
   
 
@@ -166,7 +162,7 @@ export default function ManageProduct({ products: initialProducts }: ManageProdu
                     <td className="py-4 px-4">
                       <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border inline-flex items-center gap-1.5 ${getStatusStyle(product.stockStatus)}`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${
-                          product.stock === 'In Stock' ? 'bg-emerald-500' : product.stockStatus === 'Low Stock' ? 'bg-amber-500' : 'bg-red-500'
+                          product.stockStatus === 'In Stock' ? 'bg-emerald-500' : product.stockStatus === 'Low Stock' ? 'bg-amber-500' : 'bg-red-500'
                         }`} />
                         {product.stock}
                       </span>
