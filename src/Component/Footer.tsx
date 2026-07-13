@@ -84,7 +84,7 @@ const Footer: React.FC = () => {
                 <li key={link}>
                   <Link 
                     href={`/${link.toLowerCase().replace(' & ', '-').replace(' ', '-')}`}
-                    className="text-sm font-bold text-slate-400 hover:text-white transition-colors"
+                    className="text-sm font-bold text-slate-500 hover:text-white transition-colors"
                   >
                     {link}
                   </Link>
