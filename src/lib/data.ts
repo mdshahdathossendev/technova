@@ -5,9 +5,7 @@ export const getProduct = async () => {
   };
 
 export const getSingleProduct = async (id: string) => {
-  const res = await fetch(`https://technova-server-eight.vercel.app/product/${id}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(`https://technova-server-eight.vercel.app/product/${id}`);
 
   return res.json();
 };
