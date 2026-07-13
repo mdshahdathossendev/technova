@@ -4,8 +4,9 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { Eye, EyeOff, Shield, Gauge, LogIn } from 'lucide-react';
 import { authClient } from '@/lib/auth-client';
-
+import { useRouter } from 'next/navigation';
 export default function LoginPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const onSubmit = async (e :any) => {
     e.preventDefault();
@@ -17,7 +18,14 @@ export default function LoginPage() {
     password: password,
     callbackURL: "/",
 });
-    console.log("Sign In Response:", data, error);
+ const handleGoogleLogin = async () => {
+  const data = await authClient.signIn.social({
+     provider: "google",
+   });
+   if(data){
+   router.push('/')
+ }
+ }  
   }
   return (
     

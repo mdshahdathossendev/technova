@@ -3,7 +3,9 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Shield, Tag, User, Mail, Lock, ArrowRight, ShoppingCart, User2Icon } from 'lucide-react';
 import { authClient } from '@/lib/auth-client';
+import { useRouter } from 'next/navigation';
 export default function SignUpPage() {
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false);
  const onSubmit = async(e :any) => {
   e.preventDefault();
@@ -20,12 +22,17 @@ const password = formData.get("password") as string;
     password: password,
     image: image
 });
-
+if(data){
+  router.push('/')
+}
 };
 const handleGoogleLogin = async () => {
  const data = await authClient.signIn.social({
     provider: "google",
   });
+  if(data){
+  router.push('/')
+}
 }
   return (
    
