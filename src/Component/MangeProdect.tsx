@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { deleteProduct } from '@/lib/action';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface Product {
   id: string;
@@ -30,24 +31,7 @@ interface ManageProductProps {
 }
 
 export default function ManageProduct({ products: initialProducts }: ManageProductProps) {
-  const handelDelste = () => {
-    <AlertDialog>
-    <Button>Open Alert Dialog</Button>
-    <AlertDialog.Backdrop>
-      <AlertDialog.Container>
-        <AlertDialog.Dialog>
-          <AlertDialog.CloseTrigger /> {/* Optional: Close button */}
-          <AlertDialog.Header>
-            <AlertDialog.Icon /> {/* Optional: Status icon */}
-            <AlertDialog.Heading />
-          </AlertDialog.Header>
-          <AlertDialog.Body />
-          <AlertDialog.Footer />
-        </AlertDialog.Dialog>
-      </AlertDialog.Container>
-    </AlertDialog.Backdrop>
-  </AlertDialog>
-  }
+  const router = useRouter()
   const defaultProducts: Product[] = [
     { id: '1', name: 'X-Phenom Pro Laptop', sku: 'TN-LPT-9920', image: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=80&q=80', category: 'Computing', price: 1899.00, stockStatus: 'In Stock' },
     { id: '2', name: 'Acoustix Ultra-H1', sku: 'TN-HDP-0411', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=80&q=80', category: 'Audio', price: 349.50, stockStatus: 'Low Stock' },
@@ -216,7 +200,10 @@ export default function ManageProduct({ products: initialProducts }: ManageProdu
               <Button slot="close" variant="tertiary">
                 Cancel
               </Button>
-              <Button onClick={()=> deleteProduct(product._id)} slot="close" variant="danger">
+              <Button onClick={async () => {
+  await deleteProduct(product._id);
+  router.refresh();
+}} slot="close" variant="danger">
                 Delete Prouct
               </Button>
             </AlertDialog.Footer>

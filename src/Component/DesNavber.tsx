@@ -8,8 +8,11 @@ import {
   Grid, 
   Menu 
 } from 'lucide-react';
+import { authClient } from '@/lib/auth-client';
 
 export default function DesNavber() {
+   const { data: session } = authClient.useSession();
+      console.log('Session data:', session?.user); 
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
@@ -78,7 +81,7 @@ export default function DesNavber() {
           <div className="w-8 h-8 rounded-full bg-[#e2e8f0] border border-gray-100 flex items-center justify-center overflow-hidden cursor-pointer shadow-sm hover:ring-2 hover:ring-gray-200 transition">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces" 
+              src={session?.user?.image || '/default-avatar.png'}
               alt="User Avatar" 
               className="w-full h-full object-cover"
             />

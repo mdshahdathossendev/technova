@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation'; 
 import { Search, Heart, ShoppingCart, User, Menu, X } from 'lucide-react';
@@ -8,7 +8,6 @@ import { authClient } from '@/lib/auth-client';
 
 const Navbar: React.FC = () => {
   const { data: session } = authClient.useSession();
-  console.log('Session data:', session); 
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const pathname = usePathname(); 
@@ -20,7 +19,15 @@ const Navbar: React.FC = () => {
   { name: "About", href: "/about" },
   ...(session ? [{ name: "Dashboard", href: "/desbord" }] : []),
   ];
+  const [cart, setCart] = useState<any[]>([]);
 
+  useEffect(() => {
+    const storedCart = localStorage.getItem("cart");
+
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, []);
   return (
     <nav className="sticky top-0 z-50 w-full bg-white/70 backdrop-blur-md border-b border-slate-100/80 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -75,12 +82,15 @@ const Navbar: React.FC = () => {
             </button>
 
             {/* Cart with dynamic Amber Badge */}
+           <Link href="/addtocard">
             <button type="button" className="text-slate-700 hover:text-[#001D4A] transition-colors p-1 relative" aria-label="Cart">
               <ShoppingCart size={20} />
               <span className="absolute -top-1.5 -right-2 bg-[#FFB800] text-[#001D4A] text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
-                0
+                {cart.length || 0}
               </span>
             </button>
+           </Link>
+
 
           
           
@@ -108,12 +118,14 @@ const Navbar: React.FC = () => {
           {/* ================= MOBILE HAMBURGER TOGGLE ================= */}
           <div className="flex lg:hidden items-center gap-4">
             {/* Mobile View Cart Quick Link */}
+           <Link href="/addtocard">
             <button type="button" className="sm:hidden text-slate-700 relative p-1">
               <ShoppingCart size={20} />
               <span className="absolute -top-1 -right-1.5 bg-[#FFB800] text-[#001D4A] text-[9px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center">
-                0
+                {cart.length || 0}
               </span>
             </button>
+           </Link>
 
             <button
               type="button"
@@ -153,7 +165,7 @@ const Navbar: React.FC = () => {
                   <Link
                     key={link.href}
                     href={link.href}
-                    onClick={() => setIsOpen(false)} // লিংক ক্লিক করলে মেনু বন্ধ হয়ে যাবে
+                    onClick={() => setIsOpen(false)} 
                     className={`px-3 py-3 rounded-xl text-sm transition-colors ${
                       isActive
                         ? 'font-black bg-amber-50 text-amber-600'

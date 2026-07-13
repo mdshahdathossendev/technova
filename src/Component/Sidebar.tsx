@@ -11,13 +11,14 @@ import {
   Users, 
   BarChart3, 
   Settings,
-  FileText
+  FileText,
+  User
 } from 'lucide-react';
+import { authClient } from '@/lib/auth-client';
 
 export default function Sidebar() {
-  const pathname = usePathname(); // বর্তমানে কোন রাউটে আছেন তা জানার জন্য
-
-  // মেনু লিস্ট এবং তাদের নিজস্ব রাউট পাথ
+  const { data: session } = authClient.useSession();
+  const pathname = usePathname(); 
   const menuItems = [
     { name: 'Dashboard', icon: LayoutDashboard, path: '/desbord' },
     { name: 'Add Product', icon: Archive, path: '/desbord/additems' },
@@ -73,13 +74,15 @@ export default function Sidebar() {
       <div className="space-y-4 pt-4 border-t border-gray-800/40">
         
         {/* Yellow "New Report" Action Button */}
-        <Link 
-          href="/reports/new" 
-          className="w-full bg-[#f4ba13] hover:bg-[#e0aa0f] text-[#001b4e] font-bold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-2 transition shadow-sm active:scale-[0.98]"
-        >
-          <FileText className="w-4 h-4 stroke-[2.5]" />
-          <span>New Report</span>
-        </Link>
+        <button
+            onClick={async () => {
+              await authClient.signOut();
+            }}
+            className="bg-yellow-600 w-full  hover:bg-red-700 text-white font-black text-xs px-5 py-3 rounded-xl flex items-center gap-2 transition-all shadow-sm active:scale-[0.98]"
+          >
+            <User size={14} />
+            <span className='text-center'>Logout</span>
+          </button>
 
         {/* User Profile Footer Card */}
         <div className="bg-[#002361]/40 p-3 rounded-xl border border-gray-800/20 flex items-center gap-3">
@@ -87,14 +90,14 @@ export default function Sidebar() {
           <div className="w-9 h-9 rounded-lg bg-gray-600 overflow-hidden shadow-inner flex-shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces" 
+              src={session?.user?.image || '/default-avatar.png'} 
               alt="Admin Profile" 
               className="w-full h-full object-cover"
             />
           </div>
           {/* Name & Role Text */}
           <div className="min-w-0">
-            <h4 className="text-xs font-black text-white truncate leading-none">Admin Console</h4>
+            <h4 className="text-xs font-black text-white truncate leading-none">{session?.user?.name || 'Admin Console'}</h4>
             <p className="text-[10px] text-gray-500 font-medium truncate mt-1">TechNova Admin</p>
           </div>
         </div>

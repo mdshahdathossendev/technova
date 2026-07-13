@@ -2,10 +2,12 @@
 
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Image as ImageIcon, Trash2 } from 'lucide-react';
-import { addProduct } from '@/lib/action';
+import { useRouter } from 'next/navigation';
+import addDataPage from '../addprodectuscces/page';
+
 
 export default function AddProductDashboard() {
-  // ১. সমস্ত সাধারণ ইনপুটের জন্য একটি কম্বাইন্ড স্টেট
+   const router = useRouter();
   const [productInfo, setProductInfo] = useState({
     title: '',
     brand: '',
@@ -79,8 +81,14 @@ export default function AddProductDashboard() {
       rating: 4.8,
     };
     const result = await addProduct(finalProductData);
+    router.push("/desbord/addprodectuscces");
+    // const result = await addProduct(finalProductData);
 
-    console.log(result);
+// if (result.success) {
+//   setSuccessProduct(finalProductData);
+//   router.push("/addprodectuscces");
+// }
+    
   };
 
   return (
@@ -215,6 +223,7 @@ export default function AddProductDashboard() {
                   <option value="Mechanical Keyboard">Mechanical Keyboard</option>
                   <option value="Gaming Mouse">Gaming Mouse</option>
                   <option value="OLED Monitor">OLED Monitor</option>
+                  <option value="Wireless Mouse">Wireless Mouse</option>
                 </select>
               </div>
             </div>

@@ -12,7 +12,15 @@ interface SingalPordectProps {
 }
 
 const SingalPordect: React.FC<SingalPordectProps> = ({ products }) => {
-    
+    const addToCart = (products: any) => {
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+  cart.push(products);
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  console.log("Added to cart");
+};
   const [activeImage, setActiveImage] = useState<string>(products.images?.[0] || '');
   const [selectedStorage, setSelectedStorage] = useState<string>(
     products.storageOptions?.[0] || 'Base'
@@ -187,7 +195,7 @@ const SingalPordect: React.FC<SingalPordectProps> = ({ products }) => {
           {/* Action Buttons */}
           <div className="space-y-4 pt-4 border-t border-slate-100">
             <div className="flex flex-col sm:flex-row gap-4">
-              <button 
+              <button onClick={() => addToCart(products)}
                 type="button"
                 className="flex-1 flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-500 text-slate-900 font-black py-4 rounded-xl shadow-sm transition-all transform active:scale-[0.98]"
               >

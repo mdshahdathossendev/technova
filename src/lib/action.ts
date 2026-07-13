@@ -2,7 +2,7 @@ import { Product } from "./data";
 
 
 export const addProduct = async (product: Product) => {
-  const res = await fetch("http://localhost:5000/product", {
+  const res = await fetch("https://technova-server-eight.vercel.app/product", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -17,7 +17,7 @@ export const addProduct = async (product: Product) => {
   return res.json();
 };
 export const deleteProduct = async (id: string) => {
-  const res = await fetch(`http://localhost:5000/product/${id}`, {
+  const res = await fetch(`https://technova-server-eight.vercel.app/${id}`, {
     method: "DELETE",
   });
 
