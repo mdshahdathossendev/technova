@@ -22,7 +22,7 @@ export default function Sidebar() {
   const menuItems = [
     { name: 'Dashboard', icon: LayoutDashboard, path: '/desbord' },
     { name: 'Add Product', icon: Archive, path: '/desbord/additems' },
-    { name: 'Mange Product', icon: ShoppingCart, path: '/desbord/mangeProdect'},
+    { name: 'Mange Product', icon: ShoppingCart, path: '/desbord/mangeprodect'},
   ];
 
   return (
