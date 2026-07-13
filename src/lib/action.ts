@@ -17,7 +17,7 @@ export const addProduct = async (product: Product) => {
   return res.json();
 };
 export const deleteProduct = async (id: string) => {
-  const res = await fetch(`https://technova-server-eight.vercel.app/${id}`, {
+  const res = await fetch(`https://technova-server-eight.vercel.app/product/${id}`, {
     method: "DELETE",
   });
 
