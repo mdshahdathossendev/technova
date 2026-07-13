@@ -121,7 +121,7 @@ const AllProduct: React.FC<AllProductProps> = ({ products = [] }) => {
               className="w-full accent-blue-950 cursor-pointer mb-4"
             />
             <div className="flex gap-2 mb-4">
-              <div className="flex-1 bg-gray-50 border border-gray-200 rounded-lg p-2 text-center text-sm">
+              <div className="flex-1 bg-gray-50 border border-gray-300 rounded-lg p-2 text-center text-sm">
                 <span className="text-gray-400 block text-xs">Min</span>$0
               </div>
               <div className="flex-1 bg-gray-50 border border-gray-200 rounded-lg p-2 text-center text-sm">
