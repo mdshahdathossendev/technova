@@ -118,7 +118,7 @@ const Navbar: React.FC = () => {
           {/* ================= MOBILE HAMBURGER TOGGLE ================= */}
           <div className="flex lg:hidden items-center gap-4">
             {/* Mobile View Cart Quick Link */}
-           <Link href="/addtocard">
+           <Link href="/add-to-cart">
             <button type="button" className="sm:hidden text-slate-700 relative p-1">
               <ShoppingCart size={20} />
               <span className="absolute -top-1 -right-1.5 bg-[#FFB800] text-[#001D4A] text-[9px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center">

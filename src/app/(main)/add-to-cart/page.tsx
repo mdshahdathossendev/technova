@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-
+import Link from "next/link";
 
 export interface CartItem {
   _id: string;
@@ -191,12 +191,14 @@ export default function ShoppingCart() {
             <span className="font-bold text-xl text-blue-900">৳{summary.total.toLocaleString()}</span>
           </div>
 
+         <Link href="/chakout">
           <button 
             disabled={cart.length === 0}
             className="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3 rounded-md transition-all flex items-center justify-center gap-1 text-sm shadow disabled:bg-gray-200 disabled:text-gray-400"
           >
             Proceed to Checkout ❯
           </button>
+         </Link>
         </div>
       </div>
     </div>
