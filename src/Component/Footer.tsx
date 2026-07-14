@@ -4,14 +4,30 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Globe, Mail, Phone } from 'lucide-react';
 
-const Footer: React.FC = () => {
+export default function Footer() {
   const [newsletterEmail, setNewsletterEmail] = useState('');
 
   const handleJoin = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Newsletter signup:', newsletterEmail);
     setNewsletterEmail('');
   };
+
+  
+  const quickLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'Shop', href: '/shop' },
+    { name: 'About Us', href: '/about' },
+    { name: 'Contact Us', href: '/conact' },
+  ];
+
+  
+  const supportLinks = [
+    { name: 'Privacy Policy', href: '/polacy' },
+    { name: 'Terms of Service', href: '/trms' },
+    { name: 'Shipping Info', href: '/shipping' },
+    { name: 'Returns & Refunds', href: '/retrun' },
+    { name: 'FAQs', href: '/faq' },
+  ];
 
   return (
     <footer className="w-full bg-[#001D4A] text-slate-300 font-sans py-16 border-t border-blue-950">
@@ -32,21 +48,21 @@ const Footer: React.FC = () => {
             {/* Contact & Social Action Circles */}
             <div className="flex items-center gap-3 pt-2">
               <a 
-                href="#" 
+                href="https://technova-pied-kappa.vercel.app" 
                 className="w-10 h-10 rounded-xl border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-[#FFB800] hover:border-[#FFB800] transition-colors"
                 aria-label="Website"
               >
                 <Globe size={18} />
               </a>
               <a 
-                href="mailto:info@tachnova.com" 
+                href="mailto:hmdshahdat501@gmail.com" 
                 className="w-10 h-10 rounded-xl border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-[#FFB800] hover:border-[#FFB800] transition-colors"
                 aria-label="Email"
               >
                 <Mail size={18} />
               </a>
               <a 
-                href="tel:+880" 
+                href="tel:+8801937008534" 
                 className="w-10 h-10 rounded-xl border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-[#FFB800] hover:border-[#FFB800] transition-colors"
                 aria-label="Phone"
               >
@@ -61,13 +77,13 @@ const Footer: React.FC = () => {
               Quick Links
             </h3>
             <ul className="space-y-3">
-              {['Home', 'Shop', 'Flash Deals', 'Brands', 'Contact Us'].map((link) => (
-                <li key={link}>
+              {quickLinks.map((link) => (
+                <li key={link.name}>
                   <Link 
-                    href={`/${link.toLowerCase().replace(' ', '-')}`}
+                    href={link.href}
                     className="text-sm font-bold text-slate-400 hover:text-white transition-colors"
                   >
-                    {link}
+                    {link.name}
                   </Link>
                 </li>
               ))}
@@ -80,13 +96,13 @@ const Footer: React.FC = () => {
               Support
             </h3>
             <ul className="space-y-3">
-              {['Privacy Policy', 'Terms of Service', 'Shipping Info', 'Returns & Refunds', 'FAQs'].map((link) => (
-                <li key={link}>
+              {supportLinks.map((link) => (
+                <li key={link.name}>
                   <Link 
-                    href={`/${link.toLowerCase().replace(' & ', '-').replace(' ', '-')}`}
-                    className="text-sm font-bold text-slate-500 hover:text-white transition-colors"
+                    href={link.href}
+                    className="text-sm font-bold text-slate-400 hover:text-white transition-colors"
                   >
-                    {link}
+                    {link.name}
                   </Link>
                 </li>
               ))}
@@ -111,12 +127,14 @@ const Footer: React.FC = () => {
                 onChange={(e) => setNewsletterEmail(e.target.value)}
                 className="w-full bg-[#001433] text-slate-200 placeholder-slate-500 font-medium text-xs px-4 py-3.5 rounded-lg border border-slate-800 focus:outline-none focus:border-slate-600 transition-colors"
               />
+              <Link href = '/sinin'>
               <button
                 type="submit"
                 className="w-full bg-[#FFB800] hover:bg-[#E5A500] text-[#001D4A] font-black text-xs uppercase tracking-wider py-3.5 rounded-lg transition-colors shadow-md active:scale-[0.99]"
               >
                 Join Now
               </button>
+              </Link>
             </form>
           </div>
 
@@ -125,6 +143,4 @@ const Footer: React.FC = () => {
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

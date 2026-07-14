@@ -201,7 +201,7 @@ export default function LoginPage() {
             {/* Footer Link */}
             <p className="text-center text-xs font-medium text-gray-500">
               Don't have an account?{' '}
-              <a href="/signup" className="font-bold text-[#bfa054] hover:underline">
+              <a href="/sinin" className="font-bold text-[#bfa054] hover:underline">
                 Sign Up
               </a>
             </p>
