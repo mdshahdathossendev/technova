@@ -50,7 +50,7 @@ export default function ManageProduct({ products: initialProducts }: ManageProdu
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#f8fafc] p-4 sm:p-6 md:p-8 font-sans text-[#0f172a] space-y-6">
+    <div className="w-full min-h-screen  p-4 sm:p-6 md:p-8 font-sans text-[#0f172a] space-y-6">
       
       {/* Top Header Controls */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b pb-5">

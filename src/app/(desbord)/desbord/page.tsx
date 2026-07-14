@@ -54,7 +54,7 @@ export default function OverviewSection() {
   );
 
   return (
-    <div className="w-full bg-[#f8fafc] p-4 sm:p-6 md:p-8 font-sans space-y-6 text-[#0f172a]">
+    <div className="w-full  p-4 sm:p-6 md:p-8 font-sans space-y-6 text-[#0f172a]">
       
       {/* ─── TOP CARD GRID (৪টি স্ট্যাটস কার্ড) ─── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">

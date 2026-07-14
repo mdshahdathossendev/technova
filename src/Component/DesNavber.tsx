@@ -19,7 +19,7 @@ export default function DesNavber() {
     <header className="w-full h-16 bg-white border-b border-gray-100 px-4 sm:px-6 flex items-center justify-between font-sans sticky top-0 z-50">
       
       {/* Left Side: Search Bar Section */}
-      <div className="flex-1 max-w-xl pr-4">
+      <div className="flex-1 max-w-xl pr-4 z-0">
         <div className="relative flex items-center">
           <Search className="w-4 h-4 text-gray-400 absolute left-3.5 pointer-events-none" />
           <input

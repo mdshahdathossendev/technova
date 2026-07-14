@@ -29,7 +29,7 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* ─── ১. মোবাইল মেনু বাটন (শুধুমাত্র ছোট স্ক্রিনে দেখাবে) ─── */}
+      {/* ─── ১. মোবাইল মেনু বাটন (মেনু বন্ধ থাকলে এটি স্ক্রিনের কোণায় ভাসবে) ─── */}
       <button 
         onClick={() => setIsOpen(true)}
         className="lg:hidden fixed top-4 left-4 z-40 p-2.5 rounded-xl bg-[#001b4e] text-[#f4ba13] border border-gray-800 shadow-lg active:scale-95 transition-all cursor-pointer"
@@ -37,21 +37,33 @@ export default function Sidebar() {
         <Menu className="w-5 h-5" />
       </button>
 
-      {/* ─── ২. মূল সাইডবার ─── */}
+      {/* ─── ২. মোবাইল ব্যাকড্রপ ওভারলে (মেনু খুললে পেছনের কন্টেন্ট আবছা কালো করার জন্য) ─── */}
+      {isOpen && (
+        <div 
+          className="lg:hidden fixed inset-0 bg-black/60 z-50 transition-opacity duration-300"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* ─── ৩. মূল সাইডবার ─── */}
       <aside className={`
-        fixed top-0 bottom-0 left-0 z-50 w-64 bg-[#001b4e] text-gray-400 p-5 flex flex-col justify-between font-sans border-r border-gray-800 min-h-screen
-        transition-transform duration-300 ease-in-out
+        fixed top-0 bottom-0 left-0 bg-[#001b4e] text-gray-400 p-5 flex flex-col justify-between font-sans border-r border-gray-800 min-h-screen
+        transition-transform duration-300 ease-in-out w-64
         
-        /* মোবাইলের লজিক: ওপেন থাকলে স্ক্রিনে (translate-x-0) আসবে, না থাকলে স্ক্রিনের বাইরে (-translate-x-full) চলে যাবে */
+        /* মোবাইলের লজিক: 
+           - z-50 দেওয়া হয়েছে যাতে পেজের অন্য সকল এলিমেন্টের উপরে এটি ভাসমান থাকে।
+           - বন্ধ থাকলে স্ক্রিনের বামে একদম লুকিয়ে থাকবে (-translate-x-full)।
+        */
+        z-50
         ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
         
-        /* ডেস্কটপের লজিক: সবসময় আগের মতোই ফিক্সড হয়ে স্ক্রিনে থাকবে */
+        /* ডেস্কটপের লজিক: ডেস্কটপ স্ক্রিনে এটি যথারীতি বাম পাশে ফিক্সড থাকবে */
         lg:translate-x-0
       `}>
         
         {/* ─── TOP SECTION: LOGO & LINKS ─── */}
         <div>
-          {/* Brand Logo & Close Button (ক্লোজ বাটনটি শুধু মোবাইলে ওপেন করার পর কোণায় দেখাবে) */}
+          {/* Brand Logo & Close Button */}
           <div className="mb-8 px-3 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <div className="bg-[#f4ba13] p-1.5 rounded-lg text-[#001b4e] flex items-center justify-center shadow-sm">
@@ -81,7 +93,7 @@ export default function Sidebar() {
                 <Link
                   key={item.name}
                   href={item.path}
-                  onClick={() => setIsOpen(false)} // মোবাইলে কোনো লিংকে ক্লিক করলে মেনু আপনাআপনি ক্লোজ হয়ে যাবে
+                  onClick={() => setIsOpen(false)} // লিংকে ক্লিক করলে মেনু অটো বন্ধ হবে
                   className={`flex items-center gap-3.5 px-4 py-3 rounded-xl text-xs font-bold transition-all duration-200 ${
                     isActive 
                       ? 'bg-[#002d72] text-[#f4ba13]' 

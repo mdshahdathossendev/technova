@@ -99,7 +99,7 @@ export default function AddProductDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] p-4 sm:p-8 font-sans text-[#0f172a]">
+    <div className="min-h-screen  p-4 sm:p-8 font-sans text-[#0f172a]">
       {/* Top Header Section */}
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 border-b pb-5">
         <div>
