@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { ArrowRight, ShieldCheck, Truck, Headphones, Award, Globe, Briefcase, CheckCircle2, Trophy } from 'lucide-react';
+import Link from 'next/link';
 
 const HeroSection: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -73,6 +74,7 @@ const HeroSection: React.FC = () => {
 
           {/* Action Button & Web Hyperlink */}
           <div className="flex flex-col sm:flex-row items-center gap-6 pt-4 w-full sm:w-auto">
+            <Link href = '/shop'>
             <button
               type="button"
               className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-black text-sm px-8 py-4 rounded-full flex items-center justify-center gap-3 shadow-lg shadow-blue-500/20 transition-all active:scale-[0.98]"
@@ -80,9 +82,10 @@ const HeroSection: React.FC = () => {
               <span>Shop Now</span>
               <ArrowRight size={16} />
             </button>
+            </Link>
             
             <a 
-              href="https://www.teconova.com" 
+              href="https://technova-pied-kappa.vercel.app" 
               target="_blank" 
               rel="noreferrer"
               className="text-xs font-bold text-slate-400 hover:text-blue-600 flex items-center gap-1.5 transition-colors"
