@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
   const navLinks = [
     { name: "Home", href: "/" },
   { name: "Shop", href: "/shop" },
-  { name: "About", href: "/about" },
+  { name: "About Us", href: "/about" },
   ...(session ? [{ name: "Dashboard", href: "/desbord" }] : []),
   ];
   const [cart, setCart] = useState<any[]>([]);

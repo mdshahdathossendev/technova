@@ -3,8 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { ShoppingCart, Star, ShieldCheck, Truck, Zap } from 'lucide-react';
-
-
+import { useRouter } from 'next/navigation';
 
 
 interface SingalPordectProps {
@@ -12,14 +11,15 @@ interface SingalPordectProps {
 }
 
 const SingalPordect: React.FC<SingalPordectProps> = ({ products }) => {
+  const router = useRouter();
     const addToCart = (products: any) => {
   const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
   cart.push(products);
 
   localStorage.setItem("cart", JSON.stringify(cart));
-
-  console.log("Added to cart");
+  router.push('/add-to-card-succes')  
+  
 };
   const [activeImage, setActiveImage] = useState<string>(products.images?.[0] );
   const [selectedStorage, setSelectedStorage] = useState<string>(
