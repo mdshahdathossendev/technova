@@ -196,12 +196,21 @@ export default function ManageProduct({ products: initialProducts }: ManageProdu
               <Button slot="close" variant="tertiary">
                 Cancel
               </Button>
-              <Button onClick={async () => {
-  await deleteProduct(product._id);
-  router.refresh();
-}} slot="close" variant="danger">
-                Delete Prouct
-              </Button>
+              <Button
+  onClick={async () => {
+    const result = await deleteProduct(product._id);
+
+    if (result.deletedCount > 0) {
+      setProductList((prev) =>
+        prev.filter((item) => item._id !== product._id)
+      );
+    }
+  }}
+  slot="close"
+  variant="danger"
+>
+  Delete Product
+</Button>
             </AlertDialog.Footer>
           </AlertDialog.Dialog>
         </AlertDialog.Container>
