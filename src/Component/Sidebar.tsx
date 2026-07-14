@@ -18,7 +18,7 @@ export default function Sidebar() {
   const { data: session } = authClient.useSession();
   const pathname = usePathname(); 
   
-  // মোবাইল স্ক্রিনে সাইডবার ওপেন/ক্লোজ করার স্টেট
+  // শুধুমাত্র মোবাইল স্ক্রিনের মেনু ওপেন/ক্লোজ স্টেট
   const [isOpen, setIsOpen] = useState(false);
 
   const menuItems = [
@@ -29,53 +29,46 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* ─── MOBILE TOGGLE BUTTON (মোবাইলের জন্য টপ-বার ও হ্যামবার্গার বাটন) ─── */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-[#001b4e] border-b border-gray-800 flex items-center justify-between px-4 z-50">
-        <div className="flex items-center gap-2">
-          <div className="bg-[#f4ba13] p-1.5 rounded-lg text-[#001b4e] flex items-center justify-center">
-            <Rocket className="w-4 h-4 fill-current" />
-          </div>
-          <h1 className="text-sm font-black text-white tracking-wider uppercase">
-            TECHNOVA
-          </h1>
-        </div>
-        
-        <button 
-          onClick={() => setIsOpen(!isOpen)}
-          className="p-2 text-gray-400 hover:text-white transition-colors focus:outline-none"
-        >
-          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
-      </div>
+      {/* ─── ১. মোবাইল মেনু বাটন (শুধুমাত্র ছোট স্ক্রিনে দেখাবে) ─── */}
+      <button 
+        onClick={() => setIsOpen(true)}
+        className="lg:hidden fixed top-4 left-4 z-40 p-2.5 rounded-xl bg-[#001b4e] text-[#f4ba13] border border-gray-800 shadow-lg active:scale-95 transition-all cursor-pointer"
+      >
+        <Menu className="w-5 h-5" />
+      </button>
 
-      {/* ─── MOBILE BACKDROP OVERLAY (মোবাইলে সাইডবার খুললে পেছনের আবছা কালো ব্যাকগ্রাউন্ড) ─── */}
-      {isOpen && (
-        <div 
-          className="lg:hidden fixed inset-0 bg-black/50 z-40 transition-opacity duration-300"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-
-      {/* ─── SIDEBAR COMPONENT ─── */}
+      {/* ─── ২. মূল সাইডবার ─── */}
       <aside className={`
-        fixed z-40 w-64 min-h-screen bg-[#001b4e] text-gray-400 p-5 flex flex-col justify-between font-sans border-r border-gray-800
+        fixed top-0 bottom-0 left-0 z-50 w-64 bg-[#001b4e] text-gray-400 p-5 flex flex-col justify-between font-sans border-r border-gray-800 min-h-screen
         transition-transform duration-300 ease-in-out
+        
+        /* মোবাইলের লজিক: ওপেন থাকলে স্ক্রিনে (translate-x-0) আসবে, না থাকলে স্ক্রিনের বাইরে (-translate-x-full) চলে যাবে */
         ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
-        lg:translate-x-0 lg:fixed top-0 bottom-0 left-0
-        ${/* মোবাইলে টপ-বারের কারণে প্যাডিং অ্যাডজাস্টমেন্ট */ ''}
-        pt-20 lg:pt-5
+        
+        /* ডেস্কটপের লজিক: সবসময় আগের মতোই ফিক্সড হয়ে স্ক্রিনে থাকবে */
+        lg:translate-x-0
       `}>
         
         {/* ─── TOP SECTION: LOGO & LINKS ─── */}
         <div>
-          {/* Brand Logo with Rocket Icon (ডেস্কটপে দৃশ্যমান) */}
-          <div className="hidden lg:flex mb-8 px-3 items-center gap-2.5">
-            <div className="bg-[#f4ba13] p-1.5 rounded-lg text-[#001b4e] flex items-center justify-center shadow-sm">
-              <Rocket className="w-5 h-5 fill-current" />
+          {/* Brand Logo & Close Button (ক্লোজ বাটনটি শুধু মোবাইলে ওপেন করার পর কোণায় দেখাবে) */}
+          <div className="mb-8 px-3 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="bg-[#f4ba13] p-1.5 rounded-lg text-[#001b4e] flex items-center justify-center shadow-sm">
+                <Rocket className="w-5 h-5 fill-current" />
+              </div>
+              <h1 className="text-xl font-black text-white tracking-wider uppercase">
+                TECHNOVA
+              </h1>
             </div>
-            <h1 className="text-xl font-black text-white tracking-wider uppercase">
-              TECHNOVA
-            </h1>
+
+            {/* মোবাইল ক্লোজ (X) বাটন */}
+            <button 
+              onClick={() => setIsOpen(false)}
+              className="lg:hidden p-1.5 rounded-lg hover:bg-[#002361] text-gray-400 hover:text-white transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
           {/* Navigation Routes */}
@@ -88,7 +81,7 @@ export default function Sidebar() {
                 <Link
                   key={item.name}
                   href={item.path}
-                  onClick={() => setIsOpen(false)} // মোবাইলে লিংকে ক্লিক করলে সাইডবার বন্ধ হবে
+                  onClick={() => setIsOpen(false)} // মোবাইলে কোনো লিংকে ক্লিক করলে মেনু আপনাআপনি ক্লোজ হয়ে যাবে
                   className={`flex items-center gap-3.5 px-4 py-3 rounded-xl text-xs font-bold transition-all duration-200 ${
                     isActive 
                       ? 'bg-[#002d72] text-[#f4ba13]' 
