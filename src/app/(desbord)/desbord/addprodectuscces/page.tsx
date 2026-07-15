@@ -1,5 +1,6 @@
 import React from 'react';
 import { Check, Box, Plus } from 'lucide-react';
+import Link from 'next/link';
 
 interface ProductProps {
   data?: {
@@ -32,12 +33,16 @@ const AddDataPage: React.FC<ProductProps> = ({ data }) => {
         
         {/* বাটন গ্রুপ */}
         <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+          <Link href="/shop">
           <button className="flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold px-6 py-3 rounded-lg transition-colors text-sm">
-            <Box className="w-4 h-4" /> View Inventory
+            <Box className="w-4 h-4" /> View Product
           </button>
+          </Link>
+          <Link href="/dashboard/additems">
           <button className="flex items-center justify-center gap-2 border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold px-6 py-3 rounded-lg transition-colors text-sm">
             <Plus className="w-4 h-4" /> Add Another Product
           </button>
+          </Link>
         </div>
 
       </div>
