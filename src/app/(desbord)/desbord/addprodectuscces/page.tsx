@@ -38,7 +38,7 @@ const AddDataPage: React.FC<ProductProps> = ({ data }) => {
             <Box className="w-4 h-4" /> View Product
           </button>
           </Link>
-          <Link href="/dashboard/additems">
+          <Link href="/desbord/additems">
           <button className="flex items-center justify-center gap-2 border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold px-6 py-3 rounded-lg transition-colors text-sm">
             <Plus className="w-4 h-4" /> Add Another Product
           </button>
