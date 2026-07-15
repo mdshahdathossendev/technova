@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { ShoppingCart, Star, ShieldCheck, Truck, Zap } from 'lucide-react';
+import { ShoppingCart, Star, ShieldCheck, Truck, Zap, CheckIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 
@@ -12,13 +12,22 @@ interface SingalPordectProps {
 
 const SingalPordect: React.FC<SingalPordectProps> = ({ products }) => {
   const router = useRouter();
-    const addToCart = (products: any) => {
+  const addToCart = (products: any) => {
   const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
   cart.push(products);
 
   localStorage.setItem("cart", JSON.stringify(cart));
   router.push('/add-to-card-succes')  
+  
+};
+  const checkout = (products: any) => {
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+  cart.push(products);
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  router.push('/chakout')  
   
 };
   const [activeImage, setActiveImage] = useState<string>(products.images?.[0] );
@@ -203,10 +212,13 @@ const SingalPordect: React.FC<SingalPordectProps> = ({ products }) => {
                 <span>Add to Cart</span>
               </button>
               <button 
+                onClick={() => checkout(products)}
                 type="button"
                 className="flex-1 bg-blue-950 hover:bg-blue-900 text-white font-black py-4 rounded-xl shadow-sm transition-all transform active:scale-[0.98]"
               >
-                Buy It Now
+              <span className='flex gap-1 text-center items-center justify-center'>
+                <CheckIcon></CheckIcon>  Checkout Now
+              </span>
               </button>
             </div>
 

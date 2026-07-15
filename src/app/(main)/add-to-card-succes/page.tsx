@@ -61,7 +61,7 @@ export default function AddToCartSuccess({
         <Link href="/add-to-cart">
   <button
            
-            className="flex w-full items-center justify-center gap-2 bg-blue-600 px-6 py-3 font-medium text-white shadow-md shadow-blue-600/10 transition-all hover:bg-blue-700 hover:scale-[1.02] active:scale-[0.98] rounded-xl sm:w-auto cursor-pointer"
+            className="flex w-full items-center justify-center gap-2 bg-amber-500 px-6 py-3 font-medium text-white shadow-md shadow-blue-600/10 transition-all hover:bg-blue-700 hover:scale-[1.02] active:scale-[0.98] rounded-xl sm:w-auto cursor-pointer"
           >
             <ShoppingCart className="h-4 w-4" />
             View Cart
