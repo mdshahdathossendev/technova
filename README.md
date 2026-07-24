@@ -1,36 +1,161 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TechNova
 
-## Getting Started
+TechNova is a modern full-stack web application that connects founders and collaborators. Users can discover startups, post opportunities, and collaborate on innovative projects through a role-based dashboard.
 
-First, run the development server:
+## Live Website
+
+https://technova-pied-kappa.vercel.app/
+
+---
+
+## Features
+
+- Role-based Authentication (Founder & Collaborator)
+- Secure Login and Registration
+- Startup Management System
+- Opportunity Posting System
+- Dynamic Dashboard
+- Responsive UI Design
+- Protected Routes
+- User Profile Management
+- Dark and Light Mode Support
+- Real-time Form Validation
+- REST API Integration
+
+---
+
+## Founder Features
+
+- Create and manage startups.
+- Post collaboration opportunities.
+- Update startup information.
+- Manage opportunities from the dashboard.
+
+---
+
+## Collaborator Features
+
+- Browse startup opportunities.
+- Apply for collaboration roles.
+- View application status.
+- Manage profile information.
+
+---
+
+## Tech Stack
+
+### Frontend
+
+- React.js
+- Next.js
+- Tailwind CSS
+- TypeScript
+- Framer Motion
+- React Hook Form
+- Axios
+
+### Backend
+
+- Node.js
+- Express.js
+- MongoDB
+
+### Authentication
+
+- Better Auth
+- Google Authentication
+- JWT
+
+### Deployment
+
+- Vercel
+- MongoDB Atlas
+
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone YOUR_REPOSITORY_LINK
+```
+
+Move into the project folder:
+
+```bash
+cd technova
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a .env.local file and add:
 
-## Learn More
+```env
+MONGODB_URI=
 
-To learn more about Next.js, take a look at the following resources:
+BETTER_AUTH_SECRET=
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+BETTER_AUTH_URL=
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+GOOGLE_CLIENT_ID=
 
-## Deploy on Vercel
+GOOGLE_CLIENT_SECRET=
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Folder Structure
+
+```
+src
+│
+├── app
+├── components
+├── hooks
+├── providers
+├── lib
+├── services
+├── utils
+├── assets
+└── styles
+```
+
+---
+
+## Future Improvements
+
+- Email Notifications
+- Payment Integration
+- Advanced Search and Filtering
+- Real-time Messaging System
+- Team Collaboration Features
+
+---
+
+## Author
+
+MD Shahdat Hossen
+
+- Junior Frontend / MERN Stack Developer
+- Dhaka, Bangladesh
+
+---
+
+## License
+
+This project is licensed under the MIT License.
