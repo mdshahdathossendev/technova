@@ -1,58 +1,64 @@
-# TechNova
+# TechNova - Modern E-Commerce Platform
 
-TechNova is a modern full-stack web application that connects founders and collaborators. Users can discover startups, post opportunities, and collaborate on innovative projects through a role-based dashboard.
+TechNova is a modern and responsive full-stack e-commerce platform designed to provide users with a seamless online shopping experience. Users can explore products, view detailed information, manage their shopping cart, and enjoy a clean and intuitive interface.
 
-## Live Website
+## 🔗 Live Demo
 
 https://technova-pied-kappa.vercel.app/
 
 ---
 
-## Features
+## ✨ Features
 
-- Role-based Authentication (Founder & Collaborator)
-- Secure Login and Registration
-- Startup Management System
-- Opportunity Posting System
-- Dynamic Dashboard
-- Responsive UI Design
+- Modern and Responsive UI Design
+- Product Listing and Details Pages
+- Advanced Product Search Functionality
+- Category-Based Product Filtering
+- Shopping Cart Management
+- Dark & Light Mode Support
+- Secure User Authentication
 - Protected Routes
-- User Profile Management
-- Dark and Light Mode Support
-- Real-time Form Validation
+- Dynamic Product Management
+- Mobile-Friendly Interface
+- Smooth Page Transitions and Animations
 - REST API Integration
 
 ---
 
-## Founder Features
+## 🚀 User Features
 
-- Create and manage startups.
-- Post collaboration opportunities.
-- Update startup information.
-- Manage opportunities from the dashboard.
-
----
-
-## Collaborator Features
-
-- Browse startup opportunities.
-- Apply for collaboration roles.
-- View application status.
-- Manage profile information.
+- Browse all available products.
+- View detailed product information.
+- Search products instantly.
+- Filter products by categories.
+- Add and remove items from the shopping cart.
+- Enjoy a fully responsive shopping experience on all devices.
 
 ---
 
-## Tech Stack
+## 🛠️ Admin Features
+
+- Add new products.
+- Update product information.
+- Delete products.
+- Manage product inventory.
+- Monitor product listings.
+
+---
+
+## 💻 Tech Stack
 
 ### Frontend
 
-- React.js
 - Next.js
-- Tailwind CSS
+- React.js
 - TypeScript
+- Tailwind CSS
 - Framer Motion
-- React Hook Form
 - Axios
+- React Icons
+- next-themes
+- Swiper.js
 
 ### Backend
 
@@ -64,7 +70,6 @@ https://technova-pied-kappa.vercel.app/
 
 - Better Auth
 - Google Authentication
-- JWT
 
 ### Deployment
 
@@ -73,7 +78,7 @@ https://technova-pied-kappa.vercel.app/
 
 ---
 
-## Installation
+## 📂 Installation
 
 Clone the repository:
 
@@ -81,13 +86,13 @@ Clone the repository:
 git clone YOUR_REPOSITORY_LINK
 ```
 
-Move into the project folder:
+Navigate to the project directory:
 
 ```bash
 cd technova
 ```
 
-Install dependencies:
+Install all dependencies:
 
 ```bash
 npm install
@@ -101,9 +106,9 @@ npm run dev
 
 ---
 
-## Environment Variables
+## 🔑 Environment Variables
 
-Create a .env.local file and add:
+Create a `.env.local` file and add the following:
 
 ```env
 MONGODB_URI=
@@ -119,9 +124,9 @@ GOOGLE_CLIENT_SECRET=
 
 ---
 
-## Folder Structure
+## 📁 Project Structure
 
-```
+```bash
 src
 │
 ├── app
@@ -137,25 +142,58 @@ src
 
 ---
 
-## Future Improvements
+## 📄 Main Pages
 
-- Email Notifications
-- Payment Integration
-- Advanced Search and Filtering
-- Real-time Messaging System
-- Team Collaboration Features
+- Home Page
+- Shop Page
+- Product Details Page
+- Shopping Cart Page
+- Login Page
+- Registration Page
+- User Dashboard
+- Product Management Page
 
 ---
 
-## Author
+## 🎯 Future Improvements
 
-MD Shahdat Hossen
+- Stripe Payment Integration
+- Wishlist Functionality
+- Order Management System
+- Product Reviews and Ratings
+- Coupon & Discount System
+- Order Tracking
+- Email Notifications
+- Multi-Vendor Support
+- AI-Based Product Recommendations
 
-- Junior Frontend / MERN Stack Developer
+---
+
+## 🧰 Technologies Used
+
+| Technology | Purpose |
+|------------|---------|
+| Next.js | Frontend Framework |
+| TypeScript | Type Safety |
+| Tailwind CSS | Styling |
+| MongoDB | Database |
+| Express.js | Backend API |
+| Better Auth | Authentication |
+| Framer Motion | Animations |
+| Vercel | Deployment |
+
+---
+
+## 👨‍💻 Author
+
+### MD Shahdat Hossen
+
+- Junior Frontend Developer
+- MERN Stack Developer
 - Dhaka, Bangladesh
 
 ---
 
-## License
+## 📜 License
 
 This project is licensed under the MIT License.
