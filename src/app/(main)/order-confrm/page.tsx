@@ -1,16 +1,43 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Check, Truck, ShieldCheck, Cpu } from "lucide-react";
 
+interface OrderData {
+  orderId?: string;
+  customer?: string;
+  email?: string;
+  address?: string;
+  payment?: string;
+  shippingMethod?: string;
+  total?: number;
+  subtotal?: number;
+  shippingCost?: number;
+  tax?: number;
+  items?: Array<{ name?: string; price?: number; quantity?: number; category?: string }>;
+}
+
 export default function OrderSuccessPage() {
+  const [orderData, setOrderData] = useState<OrderData | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const savedOrder = localStorage.getItem("lastOrder");
+    if (savedOrder) {
+      try {
+        setOrderData(JSON.parse(savedOrder));
+      } catch (error) {
+        console.error("Failed to parse lastOrder:", error);
+      }
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#f8fafc] text-gray-800 antialiased py-12 px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center">
-      <div className="max-w-2xl w-full text-center space-y-8">
-        
-        {/* ১. সাকসেস ব্যাজ এবং হেডার */}
+      <div className="max-w-3xl w-full text-center space-y-8">
         <div className="flex flex-col items-center space-y-4">
-          <div className="h-16 w-16  bg-amber-500 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-amber-700/10">
+          <div className="h-16 w-16 bg-amber-500 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-amber-700/10">
             <Check className="h-8 w-8 stroke-[3]" />
           </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">
@@ -21,16 +48,70 @@ export default function OrderSuccessPage() {
           </p>
         </div>
 
-        {/* ২. অ্যাকশন বাটনসমূহ */}
+        {orderData && (
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 sm:p-8 text-left space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-gray-100 pb-4">
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Order ID</span>
+              <span className="text-lg font-extrabold text-gray-900">{orderData.orderId || "TECH-0000"}</span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-600">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Customer</p>
+                <p className="font-semibold text-gray-900">{orderData.customer || "N/A"}</p>
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Email</p>
+                <p className="font-semibold text-gray-900">{orderData.email || "N/A"}</p>
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Shipping</p>
+                <p className="font-semibold text-gray-900">{orderData.shippingMethod || "Standard"}</p>
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Payment</p>
+                <p className="font-semibold text-gray-900">{orderData.payment || "N/A"}</p>
+              </div>
+              <div className="sm:col-span-2">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Address</p>
+                <p className="font-semibold text-gray-900">{orderData.address || "N/A"}</p>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-100 pt-4">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-3">Items</p>
+              <div className="space-y-2">
+                {(orderData.items || []).map((item, index) => (
+                  <div key={`${item.name || "item"}-${index}`} className="flex justify-between gap-4 text-sm text-gray-700">
+                    <span>
+                      {item.name || "Product"} x {item.quantity || 1}
+                    </span>
+                    <span className="font-semibold text-gray-900">
+                      ${(Number(item.price || 0) * Number(item.quantity || 1)).toFixed(2)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="border-t border-gray-100 pt-4 space-y-2 text-sm text-gray-600">
+              <div className="flex justify-between"><span>Subtotal</span><span className="font-semibold text-gray-900">${Number(orderData.subtotal || 0).toFixed(2)}</span></div>
+              <div className="flex justify-between"><span>Shipping</span><span className="font-semibold text-gray-900">${Number(orderData.shippingCost || 0).toFixed(2)}</span></div>
+              <div className="flex justify-between"><span>Tax</span><span className="font-semibold text-gray-900">${Number(orderData.tax || 0).toFixed(2)}</span></div>
+              <div className="flex justify-between text-base font-extrabold text-gray-900 pt-2"><span>Total</span><span>${Number(orderData.total || 0).toFixed(2)}</span></div>
+            </div>
+          </div>
+        )}
+
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <button
             onClick={() => alert("Redirecting to Track Order system...")}
-            className="w-full sm:w-auto  bg-amber-500 hover:bg-[#004fa7] text-white font-bold text-xs tracking-widest uppercase px-8 py-4 rounded-xl shadow-lg shadow-blue-500/10 transition-colors flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full sm:w-auto bg-amber-500 hover:bg-[#004fa7] text-white font-bold text-xs tracking-widest uppercase px-8 py-4 rounded-xl shadow-lg shadow-blue-500/10 transition-colors flex items-center justify-center gap-2 cursor-pointer"
           >
             <Truck className="h-4 w-4" />
             Track Order
           </button>
-          
+
           <button
             onClick={() => window.location.href = "/shop"}
             className="w-full sm:w-auto bg-white border border-gray-200 text-gray-600 hover:text-gray-900 hover:bg-gray-50 font-bold text-xs tracking-widest uppercase px-8 py-4 rounded-xl transition-colors cursor-pointer"
@@ -39,7 +120,6 @@ export default function OrderSuccessPage() {
           </button>
         </div>
 
-        {/* ৩. গ্যারান্টি সেকশন */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left pt-4">
           <div className="bg-gray-50 border border-gray-100 rounded-2xl p-5 flex items-start gap-4">
             <ShieldCheck className="h-6 w-6 text-blue-600 shrink-0 mt-0.5" />
@@ -65,7 +145,6 @@ export default function OrderSuccessPage() {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

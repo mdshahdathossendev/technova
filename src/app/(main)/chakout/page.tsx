@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { ArrowLeft, CreditCard, Lock, ShieldCheck, Award, ShoppingBag } from "lucide-react";
 import { useRouter } from 'next/navigation';
+import { addOrder } from "@/lib/action";
 
 // ==========================================
 // TYPES
@@ -99,24 +100,46 @@ export default function CheckoutPage() {
     }
   }, [shippingMethod]);
 
-  const handlePlaceOrder = (e:any) => {
-    e.preventDefault();
-    
+  const handlePlaceOrder = async (e?: any) => {
+    if (e) e.preventDefault();
+
     if (orderSummary.items.length === 0) {
       alert("Your cart is empty! Cannot place order.");
       return;
     }
 
-    console.log("Submitted Checkout Form Details:", {
-      customer: `${formData.firstName} ${formData.lastName}`,
+    const orderPayload = {
+      customer: `${formData.firstName} ${formData.lastName}`.trim(),
+      firstName: formData.firstName,
+      lastName: formData.lastName,
       address: `${formData.streetAddress}, ${formData.city}, ${formData.postalCode}`,
       email: formData.email,
       payment: paymentMethod === "card" ? "Credit Card" : "PayPal",
+      shippingMethod,
       items: orderSummary.items,
-      totalPaid: orderSummary.total,
-    });
-    localStorage.removeItem("cart");
-    router.push('/order-confrm')
+      subtotal: orderSummary.subtotal,
+      shippingCost: orderSummary.shippingCost,
+      tax: orderSummary.tax,
+      total: orderSummary.total,
+      createdAt: new Date().toISOString(),
+    };
+
+    try {
+      const response = await addOrder(orderPayload);
+      const orderId = response?._id || response?.id || `TECH-${Date.now()}`;
+
+      const savedOrder = {
+        ...orderPayload,
+        orderId,
+      };
+
+      localStorage.setItem("lastOrder", JSON.stringify(savedOrder));
+      localStorage.removeItem("cart");
+      router.push("/order-confrm");
+    } catch (error) {
+      console.error("Order creation failed:", error);
+      alert("Something went wrong while placing your order. Please try again.");
+    }
   };
 
   if (isLoading) {
