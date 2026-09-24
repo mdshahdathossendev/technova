@@ -16,7 +16,7 @@ export const addProduct = async (product: Product) => {
   return res.json();
 };
 export const addOrder = async (order: any) => {
-  const res = await fetch("http://localhost:5000/order", {
+  const res = await fetch("https://technova-server-eight.vercel.app/order", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
